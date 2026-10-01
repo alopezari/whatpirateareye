@@ -126,6 +126,24 @@
   @keyframes rage { from { transform: rotate(-6deg) scale(1.02); } to { transform: rotate(6deg) scale(1.08); } }
   .cracks { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 999; pointer-events: none; }
   .feather { position: fixed; z-index: 1002; width: 14px; height: 26px; background: #36c46a; border: 2px solid var(--ink); border-radius: 50% 0; pointer-events: none; }
+  .brawl { position: fixed; inset: 0; z-index: 1000; pointer-events: none; overflow: hidden; }
+  .brawl > * { position: absolute; left: 0; top: 0; }
+  .brawl .layer { width: 100%; height: 100%; overflow: visible; }
+  .brawl .beams { opacity: 0; filter: drop-shadow(0 0 6px #ff2d2d) drop-shadow(0 0 16px #ff5b3a); }
+  .bg-gerald svg, .fight-cloud svg, .fake-cursor svg, .burst svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .fake-cursor { width: 54px; transform-origin: 0 0; filter: drop-shadow(4px 4px 0 var(--ink)); }
+  .fight-cloud, .fake-cursor, .bg-gerald { visibility: hidden; }
+  .fight-cloud text { font-family: var(--head); }
+  .bg-bubble { margin: 0; display: none; width: max-content; max-width: min(280px, 80vw); background: var(--cream); border: var(--line); box-shadow: 5px 5px 0 var(--ink); padding: 8px 14px; font-family: var(--hand); font-size: clamp(22px, 3.4vw, 32px); line-height: 1.1; }
+  .burst { width: clamp(110px, 18vw, 170px); }
+  .burst text { font-family: var(--head); font-size: 46px; fill: var(--ink); }
+  .bit { display: block; border: 2px solid var(--ink); }
+  .flash { width: 100%; height: 100%; background: #fff; opacity: 0; }
+  .crt { width: 100%; height: 100%; }
+  .crt i { position: absolute; left: 0; width: 100%; height: 0; background: #000; }
+  .crt .crt-top { top: 0; } .crt .crt-bottom { bottom: 0; }
+  .crt .crt-line { top: 50%; height: 6px; margin-top: -3px; background: #fff; box-shadow: 0 0 30px 10px #fff; opacity: 0; }
+  .opt.scorched { background: radial-gradient(circle at 50% 60%, #1c120b 0 25%, #5b3a1e 55%, #c9a46a); color: var(--yellow); }
   .swatches { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 32px; }
   .swatch { width: 70px; height: 70px; border-radius: 50%; border: var(--line); background: var(--c); cursor: pointer; box-shadow: 5px 5px 0 var(--ink); transition: transform .08s, box-shadow .08s; }
   .swatch:hover { transform: translate(-2px, -2px) rotate(-6deg); box-shadow: 7px 7px 0 var(--ink); }
@@ -1392,6 +1410,7 @@ function enableFoodDrag(box) {
       document.body.append(ghost);
       opt.style.visibility = 'hidden';
       $('quip').textContent = 'Is that... FOOD?';
+      if (!reduceMotion) loadBrawlKit();
     };
     const holdTimer = isMouse ? 0 : setTimeout(lift, 350);
     const blockScroll = e => { if (ghost) e.preventDefault(); };
@@ -1403,11 +1422,11 @@ function enableFoodDrag(box) {
       }
       ghost.style.left = e.clientX - offset.x + 'px'; ghost.style.top = e.clientY - offset.y + 'px';
     };
-    const up = () => {
+    const up = e => {
       end();
       if (!ghost) return;
       swallowClick = true; setTimeout(() => { swallowClick = false; }, 0);
-      geraldMeltdown(ghost);
+      startMeltdown(ghost, { x: e.clientX, y: e.clientY });
     };
     const cancel = () => { end(); if (ghost) { ghost.remove(); opt.style.visibility = ''; } };
     const end = () => {
@@ -1420,6 +1439,397 @@ function enableFoodDrag(box) {
   });
 }
 
+// The full brawl needs GSAP; it loads only once someone starts dragging food.
+const BRAWL_SCRIPTS = [
+  ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js', 'sha384-XmJ9SoHtVOHoQUcKvFAzVXwdkKo1Ie3bhmSoIAkcdsHGaIrVJIkmozyq0FJeb/Ly'],
+  ['https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Physics2DPlugin.min.js', 'sha384-9e8YXNk18cw39nPRgAKOqFiS1BdEmL00cOyD1lSd1T8Zd+qaL5putYTCSJyKJwiE'],
+];
+let brawlKit = null;
+function loadBrawlKit() {
+  brawlKit ||= (async () => {
+    for (const [src, integrity] of BRAWL_SCRIPTS) {
+      await new Promise((resolve, reject) => {
+        const s = Object.assign(document.createElement('script'), { src, integrity, crossOrigin: 'anonymous', onload: resolve, onerror: reject });
+        document.head.append(s);
+      });
+    }
+    gsap.registerPlugin(Physics2DPlugin);
+    return true;
+  })().catch(() => false);
+  return brawlKit;
+}
+
+async function startMeltdown(food, pointer) {
+  document.body.classList.add('meltdown');
+  const ready = !reduceMotion && await Promise.race([loadBrawlKit(), new Promise(r => setTimeout(() => r(false), 1500))]);
+  if (ready) geraldBrawl(food, pointer); else geraldMeltdown(food);
+}
+
+// Gerald again, split into parts that can move on their own. Keep #gerald as is: the intro, chat and card back use it.
+const BRAWL_GERALD = `<svg viewBox="-40 -40 380 380" overflow="visible">
+  <defs><radialGradient id="laser-eye"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#ffe0d6"/><stop offset="1" stop-color="#ff2d2d"/></radialGradient></defs>
+  <g class="bg-flip">
+    <g stroke="#141414" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M132 290v26m-12 0h22M170 290v26m-12 0h22" fill="none"/>
+      <g class="bg-body">
+        <path class="bg-wing-r" d="M204 170c34 24 36 82 8 110-22-12-34-52-24-96Z" fill="#1f9a52"/>
+        <path d="M150 262 120 322h34l12-56Z" fill="#2341ff"/>
+        <ellipse cx="150" cy="210" rx="72" ry="88" fill="#36c46a"/>
+        <ellipse cx="162" cy="232" rx="40" ry="54" fill="#ffd23f"/>
+        <path class="bg-wing-l" d="M96 170c-34 24-36 82-8 110 22-12 34-52 24-96Z" fill="#1f9a52"/>
+      </g>
+      <g class="bg-head">
+        <circle cx="150" cy="118" r="64" fill="#36c46a"/>
+        <path class="bg-mouth" d="M190 128 234 150 192 180Z" fill="#7a1424" opacity="0"/>
+        <path class="bg-beak-low" d="M190 150c16 2 30 12 34 26-12-6-24-6-36-4Z" fill="#e86f0c"/>
+        <path class="bg-beak-up" d="M188 128c34-4 52 20 44 48-6-14-20-20-34-16Z" fill="#ff8a1f"/>
+        <path d="M74 66c40-46 112-48 156 0-24-6-52-4-78 8-26-12-54-14-78-8Z" fill="#141414"/>
+        <path d="M84 62c22-30 58-44 68-44s46 14 68 44c-22-6-46-6-68 4-22-10-46-10-68-4Z" fill="#141414"/>
+        <circle cx="128" cy="110" r="28" fill="#fff6e3"/>
+        <circle cx="184" cy="104" r="26" fill="#fff6e3"/>
+        <path class="bg-brows" d="M98 74 154 98M214 70 166 90" fill="none" stroke-width="12" opacity="0"/>
+      </g>
+    </g>
+    <g class="bg-head-extra">
+      <g fill="#fff6e3"><circle cx="152" cy="40" r="10"/><path d="M146 47h12v6h-12Z"/></g>
+      <g fill="#141414"><circle cx="148" cy="40" r="2.6"/><circle cx="156" cy="40" r="2.6"/></g>
+      <path d="M136 54 168 62M168 54 136 62" stroke="#fff6e3" stroke-width="3.4" stroke-linecap="round"/>
+      <g class="bg-pupils" fill="#141414"><circle cx="134" cy="112" r="11"/><circle cx="190" cy="106" r="10"/></g>
+      <g class="bg-glow" opacity="0"><circle cx="128" cy="110" r="24" fill="url(#laser-eye)"/><circle cx="184" cy="104" r="22" fill="url(#laser-eye)"/></g>
+    </g>
+  </g>
+</svg>`;
+
+const FIGHT_CLOUD = `<svg viewBox="-160 -160 320 320" overflow="visible">
+  <g class="fc-limbs" stroke="#141414" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M0 0c20-14 54-14 66 4-16 4-34 10-50 22Z" fill="#1f9a52"/>
+    <path d="M0 0 0 40 10 31 17 46 24 43 17 28 30 28Z" fill="#fff"/>
+    <path d="M0 0c26-6 46 10 40 32-8-12-20-16-32-14Z" fill="#ff8a1f"/>
+    <path d="M0 0v34m-12 0h24" fill="none"/>
+    <path d="M0-26 7-8 26-8 11 4 17 23 0 12-17 23-11 4-26-8-7-8Z" fill="#ffd23f"/>
+    <path d="M0 0 0 40 10 31 17 46 24 43 17 28 30 28Z" fill="#fff"/>
+    <text font-size="34" fill="#141414" stroke="none">#@%!</text>
+  </g>
+  <g fill="#f3e6c4" stroke="#141414" stroke-width="6" class="fc-puffs">
+    <circle cx="-70" cy="-30" r="56"/><circle cx="0" cy="-70" r="60"/><circle cx="70" cy="-34" r="54"/>
+    <circle cx="86" cy="40" r="52"/><circle cx="20" cy="76" r="58"/><circle cx="-60" cy="60" r="54"/>
+    <circle cx="-96" cy="20" r="44"/><circle cx="0" cy="0" r="80"/>
+  </g>
+  <g fill="none" stroke="#141414" stroke-width="5" stroke-linecap="round" class="fc-swirls">
+    <path d="M-40-10c10-24 40-24 46 0"/><path d="M10 30c14 16 40 10 42-12"/><path d="M-50 40c-6-18 8-30 22-26"/>
+  </g>
+</svg>`;
+
+async function geraldBrawl(food, pointer) {
+  const W = innerWidth, H = innerHeight, SVG_NS = 'http://www.w3.org/2000/svg';
+  const rand = (a, b) => a + Math.random() * (b - a);
+  const pickOne = list => list[Math.floor(Math.random() * list.length)];
+  const wait = s => new Promise(r => gsap.delayedCall(s, r));
+  const center = el => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
+  const onScreen = el => { const r = el.getBoundingClientRect(); return r.width > 0 && r.bottom > 0 && r.top < H && r.right > 0 && r.left < W; };
+  const node = (tag, className, parent = stage) => parent.appendChild(Object.assign(document.createElement(tag), { className }));
+  const svgNode = (tag, attrs, parent) => { const n = document.createElementNS(SVG_NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); return parent.appendChild(n); };
+
+  window.scrollTo(0, 0);
+  document.documentElement.style.overflow = 'hidden';
+  const wrap = document.querySelector('.wrap');
+  const stage = document.body.appendChild(Object.assign(document.createElement('div'), { className: 'brawl' }));
+  const layer = name => svgNode('svg', { class: 'layer ' + name, viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none' }, stage);
+  const scorch = layer('scorch');
+  const beams = layer('beams');
+  const gerald = node('div', 'bg-gerald'); gerald.innerHTML = BRAWL_GERALD;
+  const cloud = node('div', 'fight-cloud'); cloud.innerHTML = FIGHT_CLOUD;
+  const cursor = node('div', 'fake-cursor'); cursor.innerHTML = '<svg viewBox="-4 -4 40 54"><path d="M0 0 0 40 10 31 17 46 24 43 17 28 30 28Z" fill="#fff" stroke="#141414" stroke-width="3" stroke-linejoin="round"/></svg>';
+  const glass = layer('glass');
+  const flash = node('div', 'flash');
+  const bubble = node('p', 'bg-bubble');
+  const crt = node('div', 'crt'); crt.innerHTML = '<i class="crt-top"></i><i class="crt-bottom"></i><i class="crt-line"></i>';
+
+  const part = s => gerald.querySelector(s);
+  const [flip, body, head, headExtra, wingL, wingR, beakUp, beakLow, mouth, brows, pupils, glow] =
+    ['.bg-flip', '.bg-body', '.bg-head', '.bg-head-extra', '.bg-wing-l', '.bg-wing-r', '.bg-beak-up', '.bg-beak-low', '.bg-mouth', '.bg-brows', '.bg-pupils', '.bg-glow'].map(part);
+  gsap.set(flip, { svgOrigin: '150 170' });
+  gsap.set([head, headExtra], { svgOrigin: '150 176' });
+  gsap.set(body, { svgOrigin: '150 300' });
+  gsap.set(wingL, { svgOrigin: '110 176' }); gsap.set(wingR, { svgOrigin: '190 176' });
+  gsap.set(beakUp, { svgOrigin: '190 132' }); gsap.set(beakLow, { svgOrigin: '192 152' });
+
+  const gw = Math.min(340, Math.max(170, W * 0.34));
+  gerald.style.width = gw + 'px';
+  const home = { x: W - gw * 0.92, y: H - gw * 1.02 };
+  const middle = { x: (W - gw) / 2, y: (H - gw) / 2 + H * 0.08 };
+  gsap.set(gerald, { transformOrigin: '50% 90%' });
+
+  const placeBubble = () => {
+    if (bubble.style.display !== 'block') return;
+    const r = gerald.getBoundingClientRect(), bw = bubble.offsetWidth, bh = bubble.offsetHeight;
+    gsap.set(bubble, { x: Math.min(Math.max(r.left + r.width / 2 - bw / 2, 10), W - bw - 10), y: Math.max(r.top - bh + r.height * 0.06, 10) });
+  };
+  gsap.ticker.add(placeBubble);
+  const say = (text, hold) => {
+    bubble.textContent = text; bubble.style.display = 'block'; placeBubble();
+    gsap.fromTo(bubble, { scale: 0.5 }, { scale: 1, rotation: rand(-5, 3), duration: 0.3, ease: 'back.out(3)' });
+    return wait(hold);
+  };
+  const hush = () => { bubble.style.display = 'none'; };
+
+  const shake = (power = 12, duration = 0.35) => gsap.fromTo(wrap, { x: 0, y: 0 }, {
+    keyframes: Array.from({ length: 7 }, (_, i) => ({ x: rand(-power, power) * (1 - i / 7), y: rand(-power, power) * (1 - i / 7) })).concat({ x: 0, y: 0 }),
+    duration, overwrite: true,
+  });
+  const impactFrame = () => gsap.fromTo(flash, { opacity: 0.85 }, { opacity: 0, duration: 0.14, ease: 'power2.in' });
+  const burst = (x, y, word, color = '#ffd23f') => {
+    const b = node('div', 'burst');
+    const pts = Array.from({ length: 28 }, (_, i) => { const a = (i / 28) * Math.PI * 2, r = i % 2 ? rand(48, 60) : rand(84, 98); return `${(Math.cos(a) * r).toFixed(1)},${(Math.sin(a) * r).toFixed(1)}`; }).join(' ');
+    b.innerHTML = `<svg viewBox="-100 -100 200 200"><polygon points="${pts}" fill="${color}" stroke="#141414" stroke-width="6" stroke-linejoin="round"/><text x="0" y="14" text-anchor="middle">${word}</text></svg>`;
+    const bw = b.offsetWidth;
+    gsap.set(b, { x: x - bw / 2, y: y - bw / 2 });
+    gsap.timeline({ onComplete: () => b.remove() })
+      .fromTo(b, { scale: 0, rotation: rand(-30, 30) }, { scale: 1, rotation: rand(-12, 12), duration: 0.18, ease: 'back.out(4)' })
+      .to(b, { scale: 0.2, opacity: 0, duration: 0.2 }, '+=0.35');
+  };
+  const bits = (x, y, color, count, { size = 10, power = 500, spread = 360, angle = -90 } = {}) => {
+    for (let i = 0; i < count; i++) {
+      const b = node('i', 'bit');
+      Object.assign(b.style, { width: size + 'px', height: size * rand(0.6, 1.6) + 'px', background: color });
+      gsap.set(b, { x, y, rotation: rand(0, 360) });
+      gsap.to(b, { duration: rand(0.7, 1.3), physics2D: { velocity: rand(power * 0.4, power), angle: angle + rand(-spread / 2, spread / 2), gravity: 1600 }, rotation: '+=' + rand(-400, 400), opacity: 0, ease: 'none', onComplete: () => b.remove() });
+    }
+  };
+  const flung = new Set();
+  const fling = (el, power = 1, angle = rand(-130, -50)) => {
+    flung.add(el);
+    el.style.transition = 'none';
+    gsap.to(el, { duration: 2.6, physics2D: { velocity: rand(800, 1200) * power, angle, gravity: 2600 }, rotation: rand(-260, 260), ease: 'none' });
+  };
+  const crack = (x, y, level) => {
+    const rays = [5, 8, 14][level - 1], reach = [70, 170, Math.hypot(W, H) * 0.7][level - 1], steps = 3 + level * 2;
+    const draw = d => {
+      for (const [stroke, width] of [['#fff', 5], ['#141414', 1.8]]) {
+        const p = svgNode('path', { d, fill: 'none', stroke, 'stroke-width': width, 'stroke-linejoin': 'bevel', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, opacity: stroke === '#fff' ? 0.8 : 1 }, glass);
+        gsap.to(p, { attr: { 'stroke-dashoffset': 0 }, duration: 0.22, ease: 'power2.out' });
+      }
+    };
+    for (let i = 0; i < rays; i++) {
+      let a = (i / rays) * Math.PI * 2 + rand(-0.3, 0.3), px = x, py = y, d = `M${x} ${y}`;
+      for (let j = 0; j < steps; j++) { a += rand(-0.35, 0.35); const len = (reach / steps) * rand(0.6, 1.4); px += Math.cos(a) * len; py += Math.sin(a) * len; d += ` L${px.toFixed(0)} ${py.toFixed(0)}`; }
+      draw(d);
+    }
+    if (level > 1) {
+      const ring = r => 'M' + Array.from({ length: 13 }, (_, i) => { const a = (i / 12) * Math.PI * 2, rr = r * rand(0.8, 1.2); return `${(x + Math.cos(a) * rr).toFixed(0)} ${(y + Math.sin(a) * rr).toFixed(0)}`; }).join(' L');
+      draw(ring(reach * 0.22)); if (level > 2) draw(ring(reach * 0.12));
+    }
+  };
+
+  // Beams are redrawn from both eyes to a moving target, leaving a scorch line behind.
+  const beamLines = [0, 1].flatMap(() => [
+    svgNode('line', { stroke: '#ff2d2d', 'stroke-width': 14, 'stroke-linecap': 'round', opacity: 0.85 }, beams),
+    svgNode('line', { stroke: '#fff', 'stroke-width': 4, 'stroke-linecap': 'round' }, beams),
+  ]);
+  const eyes = () => [...glow.children].map(center);
+  const aim = (x, y) => eyes().forEach((e, i) => beamLines.slice(i * 2, i * 2 + 2).forEach(l => { l.setAttribute('x1', e.x); l.setAttribute('y1', e.y); l.setAttribute('x2', x); l.setAttribute('y2', y); }));
+  const sweep = (from, to, duration) => {
+    const target = { ...from }, trail = [], burn = svgNode('path', { fill: 'none', stroke: '#2b1a10', 'stroke-width': 7, 'stroke-linecap': 'round', opacity: 0.6 }, scorch);
+    let frame = 0;
+    gsap.set(beams, { opacity: 1 });
+    return gsap.to(target, {
+      ...to, duration, ease: 'none', onUpdate: () => {
+        aim(target.x, target.y);
+        trail.push(`${target.x.toFixed(0)} ${target.y.toFixed(0)}`); burn.setAttribute('d', 'M' + trail.join(' L'));
+        if (frame++ % 3 === 0) bits(target.x, target.y, pickOne(['#ffd23f', '#ff5b3a', '#fff']), 2, { size: 6, power: 420 });
+      },
+    }).then(() => burn);
+  };
+  const beamsOff = () => gsap.set(beams, { opacity: 0 });
+  const steam = () => {
+    const top = head.getBoundingClientRect();
+    for (let i = 0; i < 4; i++) {
+      const puff = svgNode('circle', { cx: top.left + top.width * rand(0.25, 0.75), cy: top.top + 10, r: 12, fill: '#fff', stroke: '#141414', 'stroke-width': 3 }, scorch);
+      gsap.to(puff, { y: -rand(60, 110), x: rand(-30, 30), scale: 2.2, transformOrigin: 'center', opacity: 0, duration: 0.8, delay: i * 0.12, onComplete: () => puff.remove() });
+    }
+  };
+  const openBeak = (open = true, duration = 0.12) => gsap.timeline()
+    .to(beakUp, { rotation: open ? -16 : 0, duration }, 0)
+    .to(beakLow, { rotation: open ? 26 : 0, duration }, 0)
+    .to(mouth, { opacity: open ? 1 : 0, duration: 0.05 }, 0);
+  const flap = (times = 6) => gsap.to([wingL, wingR], { rotation: i => (i ? -50 : 50), duration: 0.06, yoyo: true, repeat: times * 2 - 1 });
+
+  // 1. Gerald bursts out of his chat corner (or in from the side on phones, where it is hidden).
+  const chat = document.querySelector('.chat svg'), cr = chat.getBoundingClientRect();
+  let s0 = 1;
+  if (cr.width) {
+    await gsap.to(chat, { rotation: 4, duration: 0.05, yoyo: true, repeat: 7, transformOrigin: '50% 100%' });
+    gsap.set(gerald, { x: cr.left + cr.width / 2 - gw / 2, y: cr.bottom - gw * 0.92, scale: (s0 = cr.width / (gw * 0.79)), autoAlpha: 1 });
+    chat.parentElement.style.visibility = 'hidden';
+  } else {
+    gsap.set(gerald, { x: W + 20, y: home.y, scale: 1, autoAlpha: 1 });
+  }
+  gsap.set(flip, { scaleX: -1 });
+  flap(5);
+  await gsap.timeline()
+    .to(gerald, { scaleX: s0 * 1.3, scaleY: s0 * 0.7, duration: 0.1 })
+    .to(gerald, { x: home.x, y: home.y - H * 0.18, scaleX: 0.85, scaleY: 1.25, rotation: -12, duration: 0.3, ease: 'power2.out' })
+    .to(gerald, { y: home.y, rotation: 0, scaleX: 1.25, scaleY: 0.8, duration: 0.16, ease: 'power2.in' })
+    .call(() => shake(8))
+    .to(gerald, { scaleX: 1, scaleY: 1, duration: 0.45, ease: 'elastic.out(1, 0.4)' });
+
+  // 2. Eats the food in three bites.
+  openBeak(true);
+  const beak = center(beakUp);
+  await gsap.to(food, { left: beak.x - food.offsetWidth / 2, top: beak.y - food.offsetHeight / 2, scale: 0.1, rotation: 260, duration: 0.4, ease: 'power2.in' });
+  food.remove();
+  for (let i = 0; i < 3; i++) {
+    await openBeak(false, 0.07); bits(beak.x, beak.y, '#f3d39a', 5, { size: 7, power: 300 });
+    gsap.fromTo(gerald, { scaleY: 0.92 }, { scaleY: 1, duration: 0.15 });
+    await openBeak(true, 0.07);
+  }
+  openBeak(false);
+  await say('*crunch*', 0.5);
+  await say("That's it?", 0.7);
+
+  // 3. Rage.
+  gsap.fromTo(brows, { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.2, ease: 'back.out(3)' });
+  gsap.to(gerald, { x: '+=4', duration: 0.04, yoyo: true, repeat: 15 });
+  steam();
+  openBeak(true);
+  await say("WHERE'S THE REST.", 0.9);
+  openBeak(false);
+
+  // 4. Fourth wall: he comes right up to the screen and taps the glass from the inside.
+  hush();
+  flap(4);
+  await gsap.to(gerald, { x: middle.x, y: middle.y, duration: 0.5, ease: 'power2.inOut' });
+  await gsap.to(gerald, { scale: 1.45, duration: 0.35, ease: 'power2.out' });
+  await say('You.', 0.6);
+  await say('Behind the glass.', 0.8);
+  hush();
+  const tapAt = { x: W / 2 + rand(-20, 20), y: H * 0.42 };
+  for (let level = 1; level <= 3; level++) {
+    await gsap.to(gerald, { scale: 1.8, duration: 0.08, ease: 'power3.in' });
+    crack(tapAt.x, tapAt.y, level);
+    if (level === 3) { impactFrame(); shake(22, 0.5); } else shake(6, 0.2);
+    await gsap.to(gerald, { scale: 1.45, duration: 0.18, ease: 'power2.out' });
+    await wait(level === 3 ? 0.3 : 0.18);
+  }
+  await say('Not for long.', 0.7);
+  hush();
+  await gsap.to(gerald, { x: home.x, y: home.y, scale: 1, duration: 0.5, ease: 'power2.inOut' });
+
+  // 5. Laser eyes: slice the question in half, then pick off answers one by one.
+  await say("I've been practising.", 0.8);
+  hush();
+  gsap.set(pupils, { opacity: 0 });
+  gsap.set(glow, { opacity: 1 });
+  gsap.set(glow, { svgOrigin: '156 108' });
+  await gsap.fromTo(glow, { scale: 0.6 }, { scale: 1.25, duration: 0.15, yoyo: true, repeat: 3 });
+  const question = $('question');
+  if (onScreen(question)) {
+    const r = question.getBoundingClientRect(), mid = r.top + r.height / 2;
+    const burn = await sweep({ x: r.left - 10, y: mid }, { x: r.right + 10, y: mid }, 0.75);
+    beamsOff();
+    burst(Math.min(r.right, W - 90), mid, 'FZZT');
+    const halves = ['inset(0 0 50% 0)', 'inset(50% 0 0 0)'].map(clip => {
+      const h = question.cloneNode(true); h.removeAttribute('id');
+      Object.assign(h.style, { position: 'absolute', left: question.offsetLeft + 'px', top: question.offsetTop + 'px', width: question.offsetWidth + 'px', margin: 0, clipPath: clip });
+      return question.parentElement.appendChild(h);
+    });
+    question.style.visibility = 'hidden';
+    await gsap.to(halves[0], { x: -14, y: -6, rotation: -3, duration: 0.25, ease: 'power2.out' });
+    gsap.to(burn, { opacity: 0, duration: 0.4 });
+    fling(halves[0], 0.7, -100); fling(halves[1], 0.5, -70);
+  }
+  const options = [...document.querySelectorAll('#answer .opt')].filter(onScreen).sort(() => Math.random() - 0.5).slice(0, 4);
+  for (const opt of options) {
+    const c = center(opt);
+    await sweep({ x: c.x + rand(-80, 80), y: c.y - 30 }, { x: c.x, y: c.y }, 0.14);
+    beamsOff(); impactFrame(); shake(10, 0.25);
+    burst(c.x, c.y, pickOne(['ZAP', 'FZZT', 'KSSH', 'POW']), pickOne(['#ffd23f', '#ff5b3a']));
+    opt.classList.add('scorched');
+    fling(opt, 0.9);
+    await wait(0.12);
+  }
+  gsap.set(glow, { opacity: 0 }); gsap.set(pupils, { opacity: 1 });
+
+  // 6. The cursor dares to click him. Fight cloud.
+  const cursorPos = { x: Math.min(Math.max(pointer.x, 40), W - 80), y: Math.min(Math.max(pointer.y, 60), H * 0.5) };
+  gsap.set(cursor, { x: cursorPos.x, y: cursorPos.y });
+  await gsap.fromTo(cursor, { scale: 0, autoAlpha: 1 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' });
+  await say("Don't. Click. Me.", 0.9);
+  hush();
+  const headAt = center(head);
+  await gsap.to(cursor, { x: headAt.x - 10, y: headAt.y - 20, duration: 0.35, ease: 'power2.in' });
+  await gsap.to(cursor, { scale: 0.8, duration: 0.06, yoyo: true, repeat: 1 });
+  burst(headAt.x, headAt.y - 30, 'BONK'); shake(8);
+  await gsap.fromTo(gerald, { scaleY: 0.8, scaleX: 1.15 }, { scaleY: 1, scaleX: 1, duration: 0.3, ease: 'elastic.out(1, 0.3)' });
+  await wait(0.25);
+  const cw = Math.min(320, Math.max(180, W * 0.36));
+  cloud.style.width = cw + 'px';
+  const fightAt = center(cursor);
+  gsap.set(cloud, { x: fightAt.x - cw / 2, y: fightAt.y - cw / 2 });
+  await gsap.to(gerald, { x: fightAt.x - gw / 2, y: fightAt.y - gw / 2, rotation: -25, duration: 0.16, ease: 'power3.in' });
+  gsap.set([gerald, cursor], { autoAlpha: 0 });
+  gsap.fromTo(cloud, { scale: 0, autoAlpha: 1 }, { scale: 1, duration: 0.25, ease: 'back.out(2)' });
+  impactFrame(); shake(14);
+  const puffs = [...cloud.querySelectorAll('.fc-puffs circle')];
+  puffs.forEach(c => gsap.to(c, { scale: rand(1.08, 1.18), duration: rand(0.1, 0.18), yoyo: true, repeat: -1, transformOrigin: 'center' }));
+  gsap.to(cloud, { rotation: 6, duration: 0.09, yoyo: true, repeat: -1 });
+  const limbs = [...cloud.querySelectorAll('.fc-limbs > *')];
+  const scramble = () => limbs.forEach(l => {
+    const a = rand(0, 360), r = rand(100, 135);
+    l.style.visibility = Math.random() < 0.55 ? 'visible' : 'hidden';
+    l.setAttribute('transform', `rotate(${a.toFixed(0)}) translate(${r.toFixed(0)} 0) rotate(${rand(-30, 30).toFixed(0)})`);
+  });
+  scramble();
+  const scrambler = setInterval(scramble, 110);
+  const victims = ['.top', '#voyage', '#step-label', '#hint', '.quiz-foot', '.foot', '#answer .opt']
+    .flatMap(s => [...document.querySelectorAll(s)]).filter(el => !flung.has(el) && onScreen(el) && el.textContent.trim());
+  for (const v of victims.slice(0, 5)) {
+    const c = center(v);
+    await gsap.to(cloud, { x: c.x - cw / 2, y: c.y - cw / 2, duration: 0.26, ease: 'power1.inOut' });
+    fling(v, 1.1); shake(12, 0.3);
+    burst(c.x + rand(-40, 40), c.y - cw * 0.3, pickOne(['BONK', 'THWACK', 'KAPOW', 'SMACK', 'OOF']), pickOne(['#ffd23f', '#ff5b3a', '#fff6e3']));
+    bits(c.x, c.y, '#36c46a', 3, { size: 12, power: 600 });
+  }
+  impactFrame(); shake(20, 0.6);
+  [...document.querySelectorAll('.wrap > *, #answer .opt, .quiz > *')].filter(el => !flung.has(el) && onScreen(el)).forEach(el => fling(el, 0.8));
+  await wait(0.5);
+
+  // 7. The dust settles. Gerald is fine.
+  clearInterval(scrambler);
+  const settle = { x: W / 2 - gw / 2, y: H - gw * 1.02 };
+  await gsap.to(cloud, { x: settle.x + gw / 2 - cw / 2, y: settle.y + gw / 2 - cw / 2, duration: 0.4 });
+  gsap.set(gerald, { x: settle.x, y: settle.y, rotation: 0, scale: 1, autoAlpha: 1 });
+  gsap.set(flip, { rotation: -6 });
+  await gsap.to(puffs, { scale: 0, opacity: 0, duration: 0.3, stagger: 0.03, overwrite: true });
+  cloud.remove();
+  gsap.set(cursor, { x: settle.x + gw, y: settle.y + gw * 0.5, rotation: 110, autoAlpha: 1 });
+  gsap.to(cursor, { duration: 1.4, physics2D: { velocity: 300, angle: -60, gravity: 1800 }, rotation: 400 });
+  bits(settle.x + gw / 2, settle.y + gw * 0.4, '#36c46a', 8, { size: 12, power: 350, angle: -90, spread: 120 });
+  openBeak(true, 0.2);
+  gsap.to(body, { scaleY: 0.93, duration: 0.2, yoyo: true, repeat: -1 });
+  await say("...I'm fine.", 1.3);
+
+  // 8. He switches the site off.
+  hush();
+  gsap.ticker.remove(placeBubble);
+  const [crtTop, crtBottom, crtLine] = crt.children;
+  await gsap.timeline()
+    .to([crtTop, crtBottom], { height: H / 2 - 3, duration: 0.22, ease: 'power3.in' })
+    .set(crtLine, { opacity: 1 })
+    .to(crtLine, { scaleX: 0, duration: 0.25, ease: 'power3.in' }, '+=0.05')
+    .to(crt, { backgroundColor: '#000', duration: 0.01 });
+  await wait(0.45);
+  gsap.globalTimeline.clear();
+  show503();
+  const signature = document.createRange(); signature.selectNodeContents(document.querySelector('address'));
+  const address = signature.getBoundingClientRect();
+  const feather = document.body.appendChild(document.createElement('i'));
+  Object.assign(feather.style, { position: 'absolute', left: 0, top: 0, width: '10px', height: '22px', background: '#36c46a', border: '2px solid #141414', borderRadius: '50% 0' });
+  gsap.fromTo(feather, { x: address.right + 16, y: -40, rotation: 0 }, { y: address.top - 4, rotation: 70, duration: 3.2, ease: 'sine.out' });
+  gsap.to(feather, { x: '+=40', duration: 0.8, yoyo: true, repeat: 3, ease: 'sine.inOut' });
+}
+
+// Fallback when GSAP can't load: a shorter meltdown with the Web Animations API.
 async function geraldMeltdown(food) {
   const wait = ms => new Promise(r => setTimeout(r, ms));
   document.body.classList.add('meltdown');
