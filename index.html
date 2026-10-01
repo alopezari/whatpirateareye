@@ -1,0 +1,1379 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>What Pirate Are Ye?</title>
+<meta name="description" content="A few quick questions and ye get yer own pirate trading card: name, bounty, ship, pet and two very questionable attacks.">
+<link rel="canonical" href="https://whatpirateareye.view.fast/">
+<meta property="og:url" content="https://whatpirateareye.view.fast/">
+<meta property="og:title" content="What Pirate Are Ye?">
+<meta property="og:description" content="A few quick questions. One very silly pirate trading card.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:ital@1&family=Alegreya+Sans:wght@400;700;800&family=Anton&family=Archivo:wght@400;600;800&family=Caprasimo&family=Courier+Prime:wght@400;700&family=Gochi+Hand&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #7fdccf;
+    --ink: #141414;
+    --cream: #fff6e3;
+    --coral: #ff5b3a;
+    --blue: #2341ff;
+    --yellow: #ffd23f;
+    --pink: #ff8fc1;
+    --head: "Anton", "Impact", "Arial Narrow", sans-serif;
+    --body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+    --hand: "Gochi Hand", "Comic Sans MS", cursive;
+    --mono: "Courier Prime", "Courier New", monospace;
+    --line: 3px solid var(--ink);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { background: var(--bg); }
+  body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.45; overflow-x: hidden; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 48px); padding-block: 0 40px; }
+  :focus-visible { outline: 3px dashed var(--blue); outline-offset: 4px; }
+
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px 16px; border-bottom: var(--line); }
+  .brand { font-family: var(--body); font-weight: 800; font-size: 19px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--ink); background: none; border: 0; padding: 0; cursor: pointer; }
+  .top small { font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; text-align: right; }
+
+  .banner {
+    margin: 28px -8px 0; background: var(--coral); border: var(--line); transform: rotate(-1.2deg);
+    display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 9px 18px;
+    font-family: var(--body); font-weight: 800; font-size: clamp(15px, 2.2vw, 22px); text-transform: uppercase; letter-spacing: 0.01em;
+  }
+  .banner span { font-size: 1.4em; line-height: 1; }
+
+  h1, h2 { font-family: var(--head); font-weight: 400; text-transform: uppercase; line-height: 0.92; margin: 0; letter-spacing: 0.005em; }
+  .blue { color: var(--blue); }
+  .hand { font-family: var(--hand); font-size: 24px; line-height: 1.2; }
+
+  .btn {
+    font-family: var(--body); font-weight: 800; font-size: 19px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--ink);
+    background: var(--cream); border: var(--line); border-radius: 0; padding: 14px 22px; cursor: pointer;
+    box-shadow: 6px 6px 0 var(--ink); transition: transform .08s, box-shadow .08s;
+  }
+  .btn:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--ink); }
+  .btn:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--ink); }
+  .btn-hot { background: var(--coral); }
+  .btn-sun { background: var(--yellow); }
+  .linkish { font-family: var(--hand); font-size: 22px; color: var(--ink); background: none; border: 0; padding: 4px 0; cursor: pointer; text-decoration: underline wavy; text-underline-offset: 6px; }
+
+  .sticker {
+    position: absolute; z-index: 3; background: var(--cream); border: var(--line); box-shadow: 5px 5px 0 var(--ink);
+    font-family: var(--body); font-weight: 800; text-transform: uppercase; font-size: 15px; line-height: 1.15; padding: 8px 12px; text-align: center;
+  }
+  .note { position: absolute; z-index: 3; font-family: var(--mono); font-size: 14px; line-height: 1.35; max-width: 23ch; }
+  .arrow { position: absolute; z-index: 3; width: 60px; height: 60px; }
+
+  /* Intro */
+  .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 24px; align-items: center; padding-block: clamp(28px, 5vw, 56px) 20px; }
+  .hero h1 { font-size: clamp(76px, 13vw, 168px); }
+  .hero .hand { display: inline-block; margin: 22px 0 30px; padding-bottom: 6px; border-bottom: 3px solid var(--ink); transform: rotate(-2deg); }
+  .hero .actions-row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  .hero .actions-row small { font-family: var(--mono); font-size: 14px; }
+  .gerald-wrap { position: relative; justify-self: center; width: min(100%, 420px); }
+  .gerald { width: 100%; height: auto; display: block; }
+  .gerald-wrap .sticker { top: 2%; right: -2%; transform: rotate(6deg); }
+  .gerald-wrap .note { position: static; margin: 6px 0 0 8%; transform: rotate(-2deg); }
+  .gerald-wrap .arrow { top: 2%; left: 0; transform: rotate(-20deg); }
+  @media (max-width: 820px) {
+    .hero { grid-template-columns: minmax(0, 1fr); }
+    .gerald-wrap { width: min(80%, 320px); }
+    .gerald-wrap .note { position: static; margin: 10px auto 0; text-align: center; }
+    .gerald-wrap .arrow { display: none; }
+  }
+
+  .samples { position: relative; border-top: var(--line); margin-top: 26px; padding-top: 34px; }
+  .samples h2 { font-size: clamp(36px, 5vw, 56px); }
+  .samples .hand { margin: 6px 0 0; }
+  .fan { display: flex; justify-content: center; align-items: flex-start; padding: 34px 0 10px; }
+  .fan img { width: min(31%, 300px); height: auto; border-radius: 5.1% / 3.65%; border: var(--line); box-shadow: 8px 8px 0 var(--ink); background: var(--cream); }
+  .fan img:nth-child(1) { transform: rotate(-7deg) translateY(18px); margin-right: -3%; }
+  .fan img:nth-child(2) { position: relative; z-index: 2; transform: rotate(1deg); }
+  .fan img:nth-child(3) { transform: rotate(8deg) translateY(22px); margin-left: -3%; }
+
+  /* Quiz */
+  .quiz { position: relative; max-width: 820px; margin: 0 auto; padding-top: clamp(26px, 5vw, 48px); }
+  .progress { position: relative; height: 26px; border: var(--line); background: var(--cream); box-shadow: 5px 5px 0 var(--ink); margin-bottom: 34px; }
+  .progress i { position: absolute; inset: 0 auto 0 0; width: calc(var(--p, 0) * 100%); background: var(--coral); border-right: var(--line); transition: width .45s cubic-bezier(.3,.8,.3,1); }
+  .progress b { position: absolute; right: -16px; top: 50%; transform: translateY(-50%) rotate(12deg); background: var(--yellow); border: var(--line); font-family: var(--head); font-weight: 400; font-size: 20px; padding: 2px 8px; }
+  .step-label { font-family: var(--mono); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 10px; }
+  .quiz h2 { font-size: clamp(48px, 8vw, 88px); outline: none; padding-right: clamp(0px, 18vw, 170px); }
+  .hint { font-family: var(--hand); font-size: 23px; margin: 10px 0 0; }
+  .chat { position: absolute; right: 0; top: clamp(70px, 9vw, 100px); width: clamp(90px, 15vw, 150px); }
+  .chat svg { width: 100%; height: auto; display: block; }
+  .bubble { position: absolute; right: 80%; top: -14px; width: max-content; max-width: 190px; background: var(--cream); border: var(--line); padding: 8px 10px; font-family: var(--hand); font-size: 18px; line-height: 1.15; transform: rotate(-3deg); }
+  @media (max-width: 640px) { .chat { display: none; } .quiz h2 { padding-right: 0; } }
+
+  .options { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 16px; margin-top: 30px; }
+  .options.small { grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
+  .opt {
+    font-family: var(--body); font-weight: 600; font-size: 20px; line-height: 1.2; text-align: left; color: var(--ink);
+    background: var(--cream); border: var(--line); border-radius: 0; padding: 16px 18px; cursor: pointer;
+    box-shadow: 5px 5px 0 var(--ink); transition: transform .08s, box-shadow .08s, background-color .1s;
+  }
+  .opt span { display: block; font-family: var(--mono); font-weight: 400; font-size: 14px; text-transform: uppercase; margin-top: 4px; }
+  .opt:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--ink); background: #fffbf1; }
+  .opt:active { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+  .opt[aria-pressed="true"] { background: var(--yellow); }
+  .swatches { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 32px; }
+  .swatch { width: 70px; height: 70px; border-radius: 50%; border: var(--line); background: var(--c); cursor: pointer; box-shadow: 5px 5px 0 var(--ink); transition: transform .08s, box-shadow .08s; }
+  .swatch:hover { transform: translate(-2px, -2px) rotate(-6deg); box-shadow: 7px 7px 0 var(--ink); }
+  .swatch[aria-pressed="true"] { outline: 4px solid var(--blue); outline-offset: 5px; }
+  .name-row { display: flex; flex-wrap: wrap; gap: 20px; align-items: end; margin-top: 30px; }
+  .name-input { flex: 1 1 280px; min-width: 0; font-family: var(--body); font-weight: 800; font-size: clamp(30px, 5vw, 44px); color: var(--ink); background: var(--cream); border: var(--line); border-radius: 0; padding: 10px 16px; box-shadow: 5px 5px 0 var(--ink); }
+  .name-input::placeholder { color: rgba(20,20,20,.3); }
+  .error { font-family: var(--hand); font-size: 22px; color: #b3200a; margin: 14px 0 0; }
+  .quiz-foot { margin-top: 32px; }
+
+  /* Result */
+  .result { position: relative; max-width: 760px; margin: 0 auto; text-align: center; padding-top: clamp(26px, 5vw, 44px); }
+  .result h2 { font-size: clamp(46px, 8vw, 84px); }
+  .result .lead { font-family: var(--mono); font-size: 16px; text-transform: uppercase; margin: 14px 0 28px; }
+  .result .lead b { background: var(--yellow); border: 2px solid var(--ink); padding: 1px 6px; }
+  .slab-zone { position: relative; width: min(100%, 420px); margin: 0 auto; }
+  .slab { background: linear-gradient(160deg, rgba(255,255,255,.75), rgba(255,255,255,.35)); border: var(--line); border-radius: 16px; padding: 12px 14px 16px; box-shadow: 9px 9px 0 var(--ink); }
+  .slab-label { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; text-align: left; background: #fff; border: 2px solid var(--ink); padding: 8px 10px; margin-bottom: 12px; font-family: var(--mono); font-size: 12px; line-height: 1.3; text-transform: uppercase; }
+  .slab-label strong { font-family: var(--body); font-weight: 800; font-size: 15px; text-align: right; }
+  .slab-label .nm { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .slab-label .gr { font-family: var(--body); font-weight: 800; font-size: 13px; text-align: right; }
+  .slab-zone .sticker { top: 30%; left: -16%; transform: rotate(-10deg); background: var(--yellow); }
+  .slab-zone .note { right: -34%; bottom: 14%; text-align: left; }
+  @media (max-width: 760px) { .slab-zone .note { position: static; margin: 22px auto 0; text-align: center; } .slab-zone .sticker { left: -4%; top: -3%; } }
+  .actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 38px; text-align: center; }
+  .status { min-height: 1.5em; margin: 18px 0 0; font-family: var(--hand); font-size: 22px; }
+  .link-out { width: 100%; font-family: var(--mono); font-size: 14px; background: var(--cream); border: var(--line); padding: 8px; }
+  .small-print { font-family: var(--mono); font-size: 13px; margin: 8px 0 0; }
+
+  .status a { color: var(--ink); text-decoration: underline wavy; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+  .foot a { color: var(--ink); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .foot { margin-top: 56px; border-top: var(--line); padding-top: 14px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-family: var(--mono); font-size: 13px; text-transform: uppercase; }
+
+  /* Card flip */
+  .card-stage { perspective: 1200px; }
+  .tilt { transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .2s ease-out; transform-style: preserve-3d; }
+  .flipper { position: relative; aspect-ratio: 900 / 1260; transform-style: preserve-3d; transition: transform 1s cubic-bezier(.3,.7,.2,1); transform: rotateY(180deg); }
+  .flipper.revealed { transform: rotateY(0deg); }
+  .face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: 5.1% / 3.65%; overflow: hidden; }
+  .face img { display: block; width: 100%; height: 100%; }
+  .face.back { transform: rotateY(180deg); background: var(--coral); border: 8px solid var(--ink); display: grid; place-items: center; }
+  .face.back svg { width: 62%; height: auto; }
+  .holo, .glare { position: absolute; inset: 0; pointer-events: none; border-radius: inherit; }
+  .holo { background: linear-gradient(115deg, transparent 22%, rgba(255, 90, 190, .5) 36%, rgba(90, 235, 255, .5) 48%, rgba(255, 238, 100, .5) 60%, transparent 76%); background-size: 300% 300%; background-position: var(--mx, 50%) var(--my, 50%); mix-blend-mode: color-dodge; opacity: var(--holo, 0); }
+  .glare { background: radial-gradient(circle at var(--gx, 50%) var(--gy, 30%), rgba(255,255,255,.55), transparent 50%); mix-blend-mode: overlay; opacity: var(--glare, .25); transition: opacity .2s; }
+  @keyframes wiggle { 0%, 100% { transform: rotate(-1.2deg); } 50% { transform: rotate(1.2deg); } }
+  .banner { animation: wiggle 3.2s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .flipper, .tilt, .progress i { transition: none; } .banner { animation: none; } }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="gerald" viewBox="0 0 300 330">
+      <g stroke="#141414" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M150 262 120 322h34l12-56Z" fill="#2341ff"/>
+        <ellipse cx="150" cy="210" rx="72" ry="88" fill="#36c46a"/>
+        <ellipse cx="162" cy="232" rx="40" ry="54" fill="#ffd23f"/>
+        <path d="M96 170c-34 24-36 82-8 110 22-12 34-52 24-96Z" fill="#1f9a52"/>
+        <circle cx="150" cy="118" r="64" fill="#36c46a"/>
+        <path d="M188 128c34-4 52 20 44 48-6-14-20-20-34-16Z" fill="#ff8a1f"/>
+        <path d="M74 66c40-46 112-48 156 0-24-6-52-4-78 8-26-12-54-14-78-8Z" fill="#141414"/>
+        <path d="M84 62c22-30 58-44 68-44s46 14 68 44c-22-6-46-6-68 4-22-10-46-10-68-4Z" fill="#141414"/>
+        <path d="M128 110m-28 0a28 28 0 1 0 56 0a28 28 0 1 0-56 0" fill="#fff6e3"/>
+        <path d="M184 104m-26 0a26 26 0 1 0 52 0a26 26 0 1 0-52 0" fill="#fff6e3"/>
+        <path d="M60 46 46 32M58 84H40M244 40l12-14" fill="none"/>
+        <path d="M120 300v14M178 300v14" fill="none"/>
+        <path d="M40 318h220" fill="none" stroke-width="10"/>
+      </g>
+      <g fill="#fff6e3"><circle cx="152" cy="40" r="10"/><path d="M146 47h12v6h-12Z"/></g><g fill="#141414"><circle cx="148" cy="40" r="2.6"/><circle cx="156" cy="40" r="2.6"/></g><path d="M136 54 168 62M168 54 136 62" stroke="#fff6e3" stroke-width="3.4" stroke-linecap="round"/>
+      <g class="pupils" fill="#141414"><circle class="pupil" cx="134" cy="112" r="11"/><circle class="pupil" cx="190" cy="106" r="10"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header class="top">
+    <button class="brand" type="button" id="brand">What Pirate Are Ye?*</button>
+    <small>*Not a legally binding pirate</small>
+  </header>
+
+  <main>
+    <section id="screen-intro">
+      <div class="banner" aria-hidden="true"><span>✳</span>Now recruiting: anyone with a pulse<span>✳</span></div>
+      <div class="hero">
+        <div>
+          <h1>What pirate<br>are <span class="blue">ye?</span></h1>
+          <p class="hand">a few questions. one very silly card.</p>
+          <div class="actions-row">
+            <button class="btn btn-hot" type="button" id="btn-start">Hoist the sails →</button>
+            <small>30 seconds · free · no sign-up</small>
+          </div>
+        </div>
+        <div class="gerald-wrap">
+          <span class="sticker">No scurvy.<br>No sign-up.</span>
+          <svg class="gerald" id="gerald-big" viewBox="0 0 300 330" role="img" aria-label="Gerald, a parrot in a pirate hat"><use href="#gerald"/></svg>
+          <svg class="arrow" viewBox="0 0 60 60" aria-hidden="true"><path d="M8 8c10 28 26 40 44 44M52 52l-14 2M52 52l-4-13" fill="none" stroke="#2341ff" stroke-width="3" stroke-linecap="round"/></svg>
+          <p class="note">This is Gerald.<br>He will judge every answer.</p>
+        </div>
+      </div>
+      <section class="samples" aria-label="Sample cards">
+        <h2>Real cards. Fake pirates.</h2>
+        <p class="hand">yours will be weirder, probably.</p>
+        <div class="fan" id="fan"></div>
+      </section>
+    </section>
+
+    <section class="quiz" id="screen-quiz" hidden>
+      <div class="progress" id="voyage" aria-hidden="true"><i></i><b>X</b></div>
+      <p class="step-label" id="step-label"></p>
+      <h2 id="question" tabindex="-1"></h2>
+      <p class="hint" id="hint"></p>
+      <div class="chat" aria-hidden="true">
+        <div class="bubble" id="quip"></div>
+        <svg viewBox="0 0 300 330"><use href="#gerald"/></svg>
+      </div>
+      <div id="answer"></div>
+      <div class="quiz-foot"><button class="linkish" type="button" id="btn-back">← back</button></div>
+    </section>
+
+    <section class="result" id="screen-result" hidden>
+      <h2 id="result-title"></h2>
+      <p class="lead" id="result-lead"></p>
+      <div class="slab-zone">
+        <span class="sticker" id="pull-sticker"></span>
+        <div class="slab">
+          <div class="slab-label">
+            <span>Pirate Grading Co.</span><strong>Authentic</strong>
+            <span class="nm" id="slab-name"></span><span class="gr" id="slab-grade"></span>
+            <span id="slab-type"></span><span id="slab-cert"></span>
+          </div>
+          <div class="card-stage" id="card-stage">
+            <div class="tilt">
+              <div class="flipper" id="flipper">
+                <div class="face back" aria-hidden="true"><svg viewBox="0 0 300 330"><use href="#gerald"/></svg></div>
+                <div class="face front">
+                  <img id="card-img" alt="" width="900" height="1260">
+                  <div class="holo"></div>
+                  <div class="glare"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="note">screenshot it.<br>frame it.<br>tell yer mum.</p>
+      </div>
+      <div class="actions">
+        <button class="btn btn-hot" type="button" id="btn-share">Show yer crew</button>
+        <button class="btn btn-sun" type="button" id="btn-download">Download card</button>
+        <button class="btn" type="button" id="btn-reroll">Draw another</button>
+        <button class="btn" type="button" id="btn-restart">New voyage</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+      <input class="link-out" id="link-out" readonly hidden aria-label="Link to your card">
+      <p class="small-print">On a phone, press and hold the card to save it.</p>
+    </section>
+  </main>
+
+  <footer class="foot"><span>Made by pirates. Mostly. Hosted on <a href="https://spacefast.com" target="_blank" rel="noopener">Spacefast</a>, the fastest ship on the seven seas.</span><span>Please do not feed Gerald.</span></footer>
+</div>
+
+<script>
+// ---------- Seeded randomness ----------
+function cyrb53(str) {
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
+}
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function makeRng(seed) {
+  const next = mulberry32(seed % 4294967296);
+  const rng = {
+    next,
+    pick: arr => arr[Math.floor(next() * arr.length)],
+    chance: p => next() < p,
+    int: (min, max) => min + Math.floor(next() * (max - min + 1)),
+    weighted: items => {
+      let roll = next() * items.reduce((s, it) => s + it.w, 0);
+      for (const it of items) { roll -= it.w; if (roll < 0) return it; }
+      return items[items.length - 1];
+    },
+  };
+  return rng;
+}
+
+
+// ---------- Drawing helpers ----------
+function darken(hex, f) {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [n >> 16, (n >> 8) & 255, n & 255].map(v => Math.round(v * (1 - f)));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+function ellipse(x, cx, cy, rx, ry, color, rot = 0) {
+  x.fillStyle = color; x.beginPath(); x.ellipse(cx, cy, rx, ry, rot, 0, Math.PI * 2); x.fill();
+}
+function wrapText(x, text, maxW) {
+  const lines = []; let cur = '';
+  for (const w of text.split(' ')) {
+    const t = cur ? cur + ' ' + w : w;
+    if (!cur || x.measureText(t).width <= maxW) cur = t; else { lines.push(cur); cur = w; }
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+function fitText(x, text, maxW, maxLines, font, max, min) {
+  for (let s = max; s >= min; s -= 2) {
+    x.font = font(s);
+    const lines = wrapText(x, text, maxW);
+    if (lines.length <= maxLines && lines.every(l => x.measureText(l).width <= maxW)) return { size: s, lines };
+  }
+  x.font = font(min);
+  const lines = wrapText(x, text, maxW).slice(0, maxLines);
+  return { size: min, lines };
+}
+function drawLines(x, lines, cx, y, lh) { lines.forEach((l, i) => x.fillText(l, cx, y + i * lh)); }
+
+
+// ---------- Illustrated portrait ----------
+// Drawn on a 440x470 grid; the scene stretches to any width and the figure stays centred.
+// Ink lines sit slightly off the colour fills, like a hand-inked, hand-coloured print.
+const INK = '#2b1d16';
+const MISREG = [2.2, -1.6];
+
+function tracePath(x, pts, closed) {
+  const n = pts.length;
+  x.beginPath(); x.moveTo(pts[0][0], pts[0][1]);
+  const segs = closed ? n : n - 1;
+  for (let i = 0; i < segs; i++) {
+    const p0 = closed ? pts[(i - 1 + n) % n] : pts[Math.max(i - 1, 0)];
+    const p1 = pts[i], p2 = pts[(i + 1) % n];
+    const p3 = closed ? pts[(i + 2) % n] : pts[Math.min(i + 2, n - 1)];
+    x.bezierCurveTo(p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]);
+  }
+  if (closed) x.closePath();
+}
+function sampleCurve(pts, per) {
+  const out = [], n = pts.length;
+  for (let i = 0; i < n - 1; i++) {
+    const p0 = pts[Math.max(i - 1, 0)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(i + 2, n - 1)];
+    for (let s = 0; s < per; s++) {
+      const t = s / per, t2 = t * t, t3 = t2 * t;
+      out.push([0, 1].map(k => 0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t2 + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t3)));
+    }
+  }
+  out.push(pts[n - 1]);
+  return out;
+}
+const rel = (cx, cy, list) => list.map(([a, b]) => [cx + a, cy + b]);
+const mirror = list => list.map(([a, b]) => [-a, b]);
+
+function blobPoints(r, cx, cy, rx, ry, n, jit, warp) {
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+    const k = 1 + (r.next() - 0.5) * 2 * jit;
+    let px = Math.cos(a) * rx, py = Math.sin(a) * ry;
+    if (warp) [px, py] = warp(px, py);
+    pts.push([cx + px * k, cy + py * k]);
+  }
+  return pts;
+}
+function ink(x, pts, closed = true, width = 3.4) {
+  x.save(); x.translate(MISREG[0], MISREG[1]);
+  x.strokeStyle = INK; x.lineJoin = 'round'; x.lineCap = 'round';
+  x.lineWidth = width; x.globalAlpha = 0.92; tracePath(x, pts, closed); x.stroke();
+  x.translate(0.9, 0.7); x.lineWidth = width * 0.45; x.globalAlpha = 0.45; tracePath(x, pts, closed); x.stroke();
+  x.restore();
+}
+function shape(x, pts, color, inked = true, width) {
+  tracePath(x, pts, true); x.fillStyle = color; x.fill();
+  if (inked) ink(x, pts, true, width);
+}
+function brush(x, pts, w0, w1, color = INK, offset = true) {
+  const s = sampleCurve(pts, 10);
+  x.save(); if (offset) x.translate(MISREG[0], MISREG[1]);
+  x.strokeStyle = color; x.lineCap = 'round';
+  for (let i = 1; i < s.length; i++) {
+    x.lineWidth = w0 + (w1 - w0) * (i / (s.length - 1));
+    x.beginPath(); x.moveTo(s[i - 1][0], s[i - 1][1]); x.lineTo(s[i][0], s[i][1]); x.stroke();
+  }
+  x.restore();
+}
+function dot(x, cx, cy, rad, color) { x.fillStyle = color; x.beginPath(); x.arc(cx, cy, rad, 0, Math.PI * 2); x.fill(); }
+
+const HEADS = {
+  egg:   { rx: 84, ry: 106, top: 1, jaw: 0.86 },
+  round: { rx: 92, ry: 98, top: 1, jaw: 1 },
+  long:  { rx: 74, ry: 114, top: 0.96, jaw: 0.94 },
+  pear:  { rx: 84, ry: 102, top: 0.86, jaw: 1.08 },
+};
+
+function drawAvatar(x, L, w = 440) {
+  const r = makeRng(L.seed);
+  const cx = w / 2, hy = 222;
+  const h = HEADS[L.head], hr = h.ry, hw = h.rx;
+  const eyeY = hy + 4, noseY = hy + hr * 0.3, mouthY = hy + hr * 0.62, chinY = hy + hr;
+  const skinShade = darken(L.skin, 0.17), hairShade = darken(L.hair, 0.3);
+  const rgb = parseInt(L.skin.slice(1), 16);
+  // On deep skin, ink-dark features vanish: eyes get whites, brows go darker, the mouth gets a highlight.
+  const deepSkin = (0.299 * (rgb >> 16) + 0.587 * ((rgb >> 8) & 255) + 0.114 * (rgb & 255)) / 255 < 0.4;
+  const browColor = deepSkin ? '#110b08' : L.hair === '#c9c6c0' ? '#77736c' : hairShade;
+
+  // Scene
+  x.fillStyle = L.art.bg; x.fillRect(0, 0, w, 470);
+  shape(x, blobPoints(r, cx + L.sunSide * 128, 118, 66, 66, 12, 0.025), L.art.sun, false);
+  if (L.prop === 'ship') drawTinyShip(x, cx - L.sunSide * 160, 312);
+  if (L.seagulls) for (let i = 0; i < 3; i++) {
+    const gx = cx - L.sunSide * (70 + i * 44), gy = 60 + r.next() * 70;
+    brush(x, rel(gx, gy, [[-12, 2], [-6, -5], [0, 0]]), 2.6, 2, INK, false); brush(x, rel(gx, gy, [[0, 0], [6, -5], [12, 2]]), 2, 2.6, INK, false);
+  }
+  x.fillStyle = L.art.sea; x.beginPath(); x.moveTo(-10, 480);
+  for (let px = -10; px <= w + 10; px += 18) x.lineTo(px, 318 + Math.sin(px / 23) * 2.5 + (r.next() - 0.5) * 2);
+  x.lineTo(w + 10, 480); x.closePath(); x.fill();
+  for (let i = 0; i < 7; i++) {
+    const px = r.next() * w, py = 335 + r.next() * 120;
+    brush(x, rel(px, py, [[0, 0], [10, -5], [20, 0]]), 2.6, 1.2, 'rgba(255,255,255,0.5)', false);
+  }
+
+  if (L.prop === 'island') drawIsland(x, cx - L.sunSide * 178, 322);
+  if (L.prop === 'tentacle') drawTentacle(x, r, cx - L.sunSide * 170, 330, -L.sunSide);
+  if (L.hairLen === 'long') shape(x, blobPoints(r, cx, 268, hw + 26, 150, 16, 0.06), L.hair);
+  if (L.hairLen === 'curly') drawCurls(x, r, cx, hy, hw, hr, L.hair);
+
+  // Body: striped shirt, open coat, neckerchief
+  const torso = rel(cx, 0, [[-180, 485], [-166, 404], [-96, 370], [0, 360], [96, 370], [166, 404], [180, 485]]);
+  x.save(); tracePath(x, torso, true); x.fillStyle = '#efe6d2'; x.fill(); x.clip();
+  x.fillStyle = L.stripe;
+  for (let y = 372; y < 480; y += 22) { x.beginPath(); x.moveTo(cx - 200, y); x.quadraticCurveTo(cx, y + 8, cx + 200, y); x.lineTo(cx + 200, y + 10); x.quadraticCurveTo(cx, y + 18, cx - 200, y + 10); x.fill(); }
+  x.restore(); ink(x, torso);
+  const coatL = [[-182, 485], [-168, 402], [-104, 371], [-60, 384], [-44, 485]];
+  shape(x, rel(cx, 0, coatL), L.coat); shape(x, rel(cx, 0, mirror(coatL)), L.coat);
+  for (const by of [418, 452]) { dot(x, cx - 54, by, 6, '#d9a93f'); dot(x, cx + 54, by, 6, '#d9a93f'); }
+  shape(x, rel(cx, 0, [[-30, 296], [30, 296], [34, 372], [0, 384], [-34, 372]]), skinShade);
+  shape(x, rel(cx, 0, [[-44, 362], [44, 362], [8, 400], [0, 418], [-8, 400]]), L.bandana);
+
+  if (L.hairLen === 'braids') drawBraids(x, r, cx, hy, hw, L.hair);
+
+  // Ears
+  for (const s of [-1, 1]) {
+    const ex = cx + s * (hw - 4);
+    shape(x, blobPoints(r, ex, hy + 18, 15, 22, 9, 0.06), L.skin, true, 3);
+    brush(x, rel(ex, hy + 18, [[s * 2, -10], [s * 6, 0], [s * 1, 9]]), 2.2, 1.2);
+  }
+
+  // Head with one-sided shadow, blush and freckles
+  const head = blobPoints(r, cx, hy, hw, hr, 20, 0.012, (px, py) => [px * (py > 0 ? h.jaw : h.top), py]);
+  x.save(); tracePath(x, head, true); x.fillStyle = L.skin; x.fill(); x.clip();
+  x.globalAlpha = deepSkin ? 0.3 : 0.5; shape(x, blobPoints(r, cx + hw * 0.92, hy + 30, hw * 0.62, hr * 1.25, 10, 0.05), skinShade, false);
+  if (deepSkin) shape(x, blobPoints(r, cx - hw * 0.45, hy - 6, hw * 0.34, hr * 0.5, 10, 0.05), 'rgba(255,225,195,0.14)', false);
+  x.globalAlpha = 1;
+  for (const s of [-1, 1]) shape(x, blobPoints(r, cx + s * hw * 0.58, mouthY - 22, 19, 11, 10, 0.08), 'rgba(214, 92, 80, 0.32)', false);
+  if (L.freckles) for (let i = 0; i < 14; i++) dot(x, cx + (r.next() - 0.5) * hw * 1.3, noseY + (r.next() - 0.5) * 28, 1.6 + r.next(), darken(L.skin, 0.32));
+  x.restore();
+  ink(x, head, true, 3.6);
+
+  // Hair at the temples (the hat covers the rest)
+  for (const s of L.hairLen === 'bald' ? [] : [-1, 1]) {
+    const tuft = rel(cx, 0, mirror([[-hw - 6, 150], [-hw + 26, 142], [-hw + 22, 186], [-hw + 4, 228], [-hw - 12, 200]]).map(([a, b]) => [s * -a, b]));
+    shape(x, tuft, L.hair, true, 3);
+    brush(x, rel(cx + s * (hw - 6), 0, [[0, 160], [s * -4, 190], [0, 214]]), 2, 1, hairShade);
+  }
+
+  // Eyes and brows
+  for (const s of [-1, 1]) {
+    const ex = cx + s * 32 + L.gaze;
+    const patched = (L.patch === 'l' && s === -1) || (L.patch === 'r' && s === 1);
+    if (!patched) {
+      if (L.eyes === 'wide') {
+        shape(x, blobPoints(r, ex, eyeY, 11, 9, 8, 0.04), '#fbf6ea', true, 2);
+        dot(x, ex + L.gaze * 0.6, eyeY + 1, 5, INK);
+      } else {
+        if (deepSkin) shape(x, blobPoints(r, ex, eyeY, 10, 8, 8, 0.04), '#fbf6ea', false);
+        dot(x, ex, eyeY, deepSkin ? 5.5 : 6, INK);
+        dot(x, ex + 2, eyeY - 2.4, 1.7, '#ffffff');
+        if (L.eyes === 'sleepy') {
+          x.fillStyle = L.skin; x.beginPath(); x.ellipse(ex, eyeY - 1, 10, 8.5, 0, Math.PI, Math.PI * 2); x.fill();
+          brush(x, rel(ex, eyeY - 1, [[-11, 1], [0, -1], [11, 1]]), 3, 2);
+        }
+      }
+      if (L.crowsFeet) brush(x, rel(cx + s * 50, eyeY, [[0, -4], [s * 7, 0], [0, 5]]), 1.6, 1);
+    }
+    const tilt = { angry: [8, -2], raised: [-6, 2], flat: [0, 0], quirk: s === 1 ? [-7, -2] : [3, 0] }[L.brows];
+    brush(x, rel(cx, 0, [[s * 14, eyeY - 22 + tilt[0]], [s * 30, eyeY - 30 + tilt[1]], [s * 47, eyeY - 24]]), 9, 3, browColor);
+  }
+
+  if (L.glasses) {
+    for (const s of [-1, 1]) { x.save(); x.translate(MISREG[0], MISREG[1]); x.strokeStyle = INK; x.lineWidth = 3; x.beginPath(); x.arc(cx + s * 32, eyeY + 1, 16, 0, Math.PI * 2); x.stroke(); x.restore(); }
+    brush(x, rel(cx, eyeY - 2, [[-16, 0], [0, -4], [16, 0]]), 3, 3);
+  }
+  // Nose
+  const noseColor = darken(L.skin, 0.07);
+  if (L.nose === 'bulb' || L.nose === 'button') {
+    const nr = L.nose === 'bulb' ? 19 : 12;
+    shape(x, blobPoints(r, cx + 4, noseY + 8, nr, nr * 0.9, 10, 0.05), noseColor, false);
+    dot(x, cx + 4, noseY + 8, nr * 0.85, 'rgba(205, 85, 70, 0.18)');
+    const arc = []; for (let a = 0.15; a <= 0.95; a += 0.2) arc.push([cx + 4 + Math.cos(a * Math.PI) * nr, noseY + 8 + Math.sin(a * Math.PI) * nr * 0.9]);
+    brush(x, arc, 3.4, 2);
+    dot(x, cx - 2, noseY + 2, nr * 0.22, 'rgba(255,255,255,0.55)');
+  } else {
+    const pts = L.nose === 'long'
+      ? [[-4, -34], [6, -10], [24, 14], [8, 20], [-6, 16]]
+      : [[-2, -36], [16, -14], [24, 6], [14, 20], [0, 14]];
+    shape(x, rel(cx, noseY, pts), noseColor, false);
+    brush(x, rel(cx, noseY, pts.slice(0, 4)), 2, 3.6);
+  }
+  dot(x, cx - 4 + MISREG[0], noseY + 17 + MISREG[1], 2.4, INK);
+
+  // Beard sits under the mouth; the moustache goes over it
+  if (L.beard === 'barba' || L.beard === 'legendaria') {
+    const drop = L.beard === 'legendaria' ? 120 : 34;
+    const beard = rel(cx, 0, [[hw * 0.95, hy + 22], [hw * 0.98, hy + hr * 0.62], [hw * 0.6, chinY + drop * 0.5], [hw * 0.22, chinY + drop * 0.9], [0, chinY + drop],
+      [-hw * 0.22, chinY + drop * 0.9], [-hw * 0.6, chinY + drop * 0.5], [-hw * 0.98, hy + hr * 0.62], [-hw * 0.95, hy + 22], [-hw * 0.6, noseY + 22], [0, noseY + 28], [hw * 0.6, noseY + 22]]);
+    shape(x, beard, L.hair, true, 3.4);
+    for (let i = 0; i < 9; i++) {
+      const bx = cx + (r.next() - 0.5) * hw * 1.4, by = mouthY + 10 + r.next() * (drop * 0.7 + 10);
+      brush(x, [[bx, by], [bx + 3, by + 10], [bx + 1, by + 20]], 2, 1, hairShade, false);
+    }
+    if (L.beard === 'legendaria') for (const by of [chinY + 70, chinY + 96]) { dot(x, cx, by, 8, '#d9a93f'); ink(x, blobPoints(r, cx, by, 8, 8, 6, 0.02), true, 1.6); }
+  }
+
+  // Mouth
+  if (L.mouth === 'grin') {
+    const m = rel(cx, mouthY, [[-26, -4], [0, -2], [26, -6], [16, 12], [0, 16], [-16, 12]]);
+    x.save(); tracePath(x, m, true); x.fillStyle = '#4a1f14'; x.fill(); x.clip();
+    x.fillStyle = '#fbf6ea'; x.fillRect(cx - 30, mouthY - 10, 60, 13);
+    if (L.goldTooth) { x.fillStyle = '#e6b53a'; x.fillRect(cx + 4, mouthY - 6, 9, 9); }
+    x.restore(); ink(x, m, true, 3);
+  } else if (L.mouth === 'oh') {
+    shape(x, blobPoints(r, cx + 2, mouthY + 2, 7, 9, 8, 0.05), '#4a1f14', true, 2.6);
+  } else if (L.mouth === 'grumpy') {
+    brush(x, rel(cx, mouthY, [[-20, 5], [0, -1], [20, 5]]), 4.6, 3);
+  } else {
+    brush(x, rel(cx, mouthY, [[-24, 0], [-6, 4], [14, 1], [27, -9]]), 4.6, 2.4);
+    brush(x, rel(cx, mouthY, [[28, -14], [31, -7]]), 2, 1.4);
+  }
+  if (deepSkin && (L.mouth === 'smirk' || L.mouth === 'grumpy')) brush(x, rel(cx, mouthY + 8, [[-14, 0], [0, 2], [14, 0]]), 3, 2, 'rgba(255,215,190,0.4)', false);
+  if (L.beard !== 'ninguna') {
+    const half = [[2, 0], [22, -7], [44, -3], [60, -16], [56, 4], [32, 10], [4, 8]];
+    for (const s of [-1, 1]) shape(x, rel(cx, noseY + 24, half.map(([a, b]) => [s * a, b])), L.hair, true, 3);
+  }
+
+  if (L.scar) {
+    const s = L.patch === 'r' ? -1 : 1;
+    brush(x, rel(cx + s * 44, eyeY + 16, [[0, 0], [s * 12, 22], [s * 22, 40]]), 3.4, 2.4, '#8c3a2a');
+    for (let i = 1; i <= 3; i++) brush(x, rel(cx + s * (44 + i * 6), eyeY + 16 + i * 10, [[-6, 2 * s], [6, -2 * s]]), 2, 2, '#8c3a2a');
+  }
+  if (L.patch) {
+    const s = L.patch === 'l' ? -1 : 1;
+    brush(x, [[cx - s * hw, eyeY - 44], [cx + s * 32, eyeY - 4], [cx + s * hw, eyeY + 8]], 4, 4);
+    shape(x, blobPoints(r, cx + s * 32, eyeY + 2, 18, 15, 9, 0.05), '#231713', true, 2.4);
+    brush(x, rel(cx + s * 32, eyeY + 2, [[-8, -6], [2, -9]]), 2, 1, 'rgba(255,255,255,0.35)', false);
+  }
+  if (L.earring) {
+    x.save(); x.translate(MISREG[0], MISREG[1]); x.strokeStyle = '#d9a93f'; x.lineWidth = 4;
+    x.beginPath(); x.arc(cx - hw + 2, hy + 44, 9, 0, Math.PI * 2); x.stroke(); x.restore();
+  }
+
+  if (L.mole) dot(x, cx + L.mole * 30, mouthY - 12, 2.8, darken(L.skin, 0.5));
+  if (L.bandaid) {
+    const s = L.patch === 'r' ? 1 : -1;
+    x.save(); x.translate(cx + s * 56, mouthY - 34); x.rotate(s * 0.5);
+    shape(x, [[-15, -5], [15, -5], [15, 5], [-15, 5]], '#e8c49a', true, 2);
+    dot(x, -3, 0, 1.4, '#a07850'); dot(x, 3, 0, 1.4, '#a07850');
+    x.restore();
+  }
+  x.save(); x.translate(cx, 150); x.rotate(L.tilt); drawHat(x, L, r); x.restore();
+  if (L.pet === 'parrot') drawParrot(x, L, r, cx + 152, 384);
+  if (L.pet === 'crab') drawCrab(x, r, cx - 146, 420);
+  addGrain(x, r, w, 470);
+}
+
+function drawCurls(x, r, cx, hy, hw, hr, color) {
+  const puffs = [];
+  for (let a = Math.PI * 0.85; a <= Math.PI * 2.15; a += 0.22) puffs.push([cx + Math.cos(a) * (hw + 22), hy - 10 + Math.sin(a) * (hr + 10) * 0.9, 34 + r.next() * 12]);
+  for (const s of [-1, 1]) for (let y = hy + 10; y <= hy + 80; y += 26) puffs.push([cx + s * (hw + 18), y, 26 + r.next() * 8]);
+  // Stroke every puff first, then fill them all: only the outer silhouette keeps its ink line.
+  x.save(); x.translate(MISREG[0], MISREG[1]); x.strokeStyle = INK; x.lineWidth = 7;
+  for (const [px, py, rad] of puffs) { x.beginPath(); x.arc(px, py, rad, 0, Math.PI * 2); x.stroke(); }
+  x.restore();
+  x.fillStyle = color;
+  for (const [px, py, rad] of puffs) { x.beginPath(); x.arc(px, py, rad, 0, Math.PI * 2); x.fill(); }
+  for (let i = 0; i < 16; i++) { const [px, py] = r.pick(puffs); brush(x, [[px - 6, py + 2], [px, py - 5], [px + 6, py + 2]], 2.2, 1.4, darken(color, 0.3), false); }
+}
+
+function drawBraids(x, r, cx, hy, hw, color) {
+  for (const s of [-1, 1]) for (let k = 0; k < 3; k++) {
+    const bx = cx + s * (hw - 10 + k * 14), top = hy - 20 + k * 6, len = 150 + r.next() * 40;
+    for (let y = top; y < top + len; y += 15) shape(x, blobPoints(r, bx + Math.sin(y / 20) * 2, y, 9, 10, 7, 0.06), color, true, 2.2);
+    dot(x, bx, top + len + 6, 5.5, r.pick(['#d9a93f', '#b8402a', '#2f5fa3']));
+  }
+}
+
+function drawHat(x, L, r) {
+  const gold = '#d9a93f';
+  if (L.hat === 'bandana') {
+    const cap = [[-100, 42], [-92, -8], [-52, -48], [0, -58], [52, -48], [92, -8], [100, 42], [0, 30]];
+    x.save(); tracePath(x, cap, true); x.fillStyle = L.bandana; x.fill(); x.clip();
+    for (let i = 0; i < 16; i++) dot(x, -90 + (i % 6) * 36 + (Math.floor(i / 6) % 2) * 18, -40 + Math.floor(i / 6) * 26, 5, 'rgba(255,255,255,0.75)');
+    x.restore(); ink(x, cap);
+    shape(x, [[90, 18], [146, -4], [140, 30], [98, 36]], L.bandana);
+    shape(x, [[92, 30], [130, 80], [106, 84], [86, 42]], L.bandana);
+    return;
+  }
+  if (L.hat === 'tricorn') {
+    shape(x, blobPoints(r, 0, -30, 80, 52, 12, 0.03), L.hatColor);
+    const brim = [[-152, 22], [-112, -8], [-60, -32], [0, -14], [60, -32], [112, -8], [152, 22], [60, 14], [0, 30], [-60, 14]];
+    shape(x, brim, L.hatColor);
+    brush(x, [[-146, 18], [-60, 10], [0, 25], [60, 10], [146, 18]], 5, 5, gold, false);
+    brush(x, [[-40, -44], [0, -56], [40, -44]], 4, 2, 'rgba(255,255,255,0.18)', false);
+    drawSkull(x, 0, -2, 0.8);
+    return;
+  }
+  if (L.hat === 'bicorne') {
+    const b = [[-172, 30], [-122, -20], [-42, -60], [0, -66], [42, -60], [122, -20], [172, 30], [0, 16]];
+    shape(x, b, L.hatColor);
+    brush(x, [[-164, 26], [0, 12], [164, 26]], 5, 5, gold, false);
+    dot(x, 0, -20, 16, '#f1e6cf'); dot(x, 0, -20, 9, '#b8402a');
+    return;
+  }
+  shape(x, blobPoints(r, 0, 24, 168, 30, 14, 0.03), L.hatColor);
+  const crown = [[-80, 20], [-76, -58], [-30, -80], [30, -80], [76, -58], [80, 20]];
+  shape(x, crown, L.hatColor);
+  shape(x, [[-79, -4], [79, -4], [80, 12], [-80, 12]], gold, true, 2.4);
+  brush(x, [[56, -6], [96, -40], [118, -86], [108, -128]], 14, 4, L.feather, false);
+  for (let i = 0; i < 6; i++) { const t = i / 6; brush(x, [[60 + t * 50, -12 - t * 100], [76 + t * 50, -18 - t * 100]], 2, 1, 'rgba(0,0,0,0.25)', false); }
+  drawSkull(x, 0, -40, 0.8);
+}
+
+function drawSkull(x, cx, cy, s) {
+  x.save(); x.translate(cx, cy); x.scale(s, s);
+  brush(x, [[-22, -4], [22, 24]], 5, 5, '#f1e6cf', false); brush(x, [[22, -4], [-22, 24]], 5, 5, '#f1e6cf', false);
+  x.fillStyle = '#f1e6cf'; x.beginPath(); x.ellipse(0, 0, 15, 14, 0, 0, Math.PI * 2); x.fill(); x.fillRect(-8, 6, 16, 10);
+  dot(x, -5.5, 0, 4, INK); dot(x, 5.5, 0, 4, INK);
+  x.restore();
+}
+
+function drawParrot(x, L, r, px, py) {
+  const [main, dark] = L.petColor;
+  brush(x, rel(px, py, [[0, 36], [8, 80], [14, 116]]), 12, 4, dark, false);
+  shape(x, blobPoints(r, px, py, 30, 46, 12, 0.05), main);
+  shape(x, rel(px, py, [[4, -24], [26, -8], [24, 30], [8, 40], [0, 10]]), dark, true, 2.6);
+  shape(x, blobPoints(r, px - 6, py - 54, 23, 22, 10, 0.04), main);
+  shape(x, rel(px, py, [[-26, -60], [-48, -56], [-44, -36], [-30, -44]]), '#f2c14e', true, 2.6);
+  dot(x, px - 12, py - 58, 6, '#fbf6ea'); dot(x, px - 13, py - 58, 3, INK);
+}
+
+function drawCrab(x, r, px, py) {
+  const red = '#d4502f';
+  for (const s of [-1, 1]) {
+    for (let i = 0; i < 3; i++) brush(x, rel(px, py, [[s * 22, 6 + i * 6], [s * 40, 2 + i * 10], [s * 54, 16 + i * 10]]), 4, 2);
+    brush(x, rel(px, py, [[s * 26, -8], [s * 40, -26], [s * 46, -34]]), 4, 3);
+    shape(x, blobPoints(r, px + s * 50, py - 44, 15, 12, 9, 0.06), red, true, 2.6);
+    brush(x, rel(px, py, [[s * 10, -14], [s * 14, -34]]), 3, 2);
+    dot(x, px + s * 14, py - 38, 6, '#fbf6ea'); dot(x, px + s * 14, py - 38, 3, INK);
+  }
+  shape(x, blobPoints(r, px, py, 38, 25, 12, 0.05), red);
+}
+
+function drawIsland(x, px, py) {
+  shape(x, rel(px, py, [[-62, 6], [-38, -12], [0, -18], [36, -10], [62, 6]]), '#d9b878', true, 2.6);
+  brush(x, rel(px, py, [[0, -16], [6, -48], [2, -78]]), 6, 3, '#6b4630');
+  for (const [dx, dy] of [[34, -84], [-30, -86], [26, -60], [-24, -60]]) brush(x, rel(px, py, [[2, -78], [dx * 0.6, dy - 8], [dx, dy]]), 8, 2, '#3f7d3a');
+}
+
+function drawTentacle(x, r, px, py, dir) {
+  const pts = rel(px, py, [[0, 70], [-8, 20], [6 * dir, -30], [34 * dir, -64], [52 * dir, -52], [44 * dir, -36]]);
+  brush(x, pts, 34, 8, INK, true);
+  brush(x, pts, 28, 4, '#8a5a9a', false);
+  for (const t of [0.2, 0.35, 0.5, 0.65]) {
+    const p = sampleCurve(pts, 10)[Math.floor(t * 50)];
+    dot(x, p[0] + 7 * dir, p[1] + 2, 4, '#e7c9e8');
+  }
+}
+
+function drawTinyShip(x, px, py) {
+  x.fillStyle = 'rgba(43,29,22,0.55)';
+  x.beginPath(); x.moveTo(px - 26, py - 6); x.lineTo(px + 26, py - 6); x.lineTo(px + 18, py + 4); x.lineTo(px - 18, py + 4); x.closePath(); x.fill();
+  x.fillRect(px - 1.5, py - 44, 3, 40);
+  x.beginPath(); x.moveTo(px + 2, py - 42); x.quadraticCurveTo(px + 22, py - 26, px + 2, py - 10); x.fill();
+  x.beginPath(); x.moveTo(px - 2, py - 36); x.quadraticCurveTo(px - 18, py - 24, px - 2, py - 12); x.fill();
+}
+
+function addGrain(x, r, w, h) {
+  x.save(); x.globalCompositeOperation = 'multiply';
+  for (let i = 0; i < w * h / 40; i++) {
+    x.fillStyle = `rgba(90,60,30,${0.05 + r.next() * 0.1})`;
+    x.fillRect(r.next() * w, r.next() * h, 1.4, 1.4);
+  }
+  x.globalCompositeOperation = 'screen';
+  for (let i = 0; i < w * h / 160; i++) {
+    x.fillStyle = `rgba(255,250,235,${0.1 + r.next() * 0.2})`;
+    x.fillRect(r.next() * w, r.next() * h, 1.4, 1.4);
+  }
+  x.restore();
+}
+
+// ---------- Data ----------
+const SKIN = [['#f6d3b3', 'Very fair'], ['#e9b98f', 'Fair'], ['#d6b07c', 'Light olive'], ['#c48a58', 'Medium'], ['#a66b3f', 'Tan'], ['#83502d', 'Brown'], ['#5c3720', 'Dark brown'], ['#3b2316', 'Deep']];
+const HAIR = { black: ['#1f1a17', 'Black'], brown: ['#5b3a22', 'Brown'], blonde: ['#d9b45a', 'Blonde'], ginger: ['#b8461f', 'Ginger'], grey: ['#c9c6c0', 'Grey'], blue: ['#2c6fb3', 'Sea blue'] };
+
+const TYPES = {
+  storm:  { art: { bg: '#b8c6cc', sun: '#eef0e4', sea: '#4c6b7a' }, name: 'Storm',  sea: 'The stormy North Sea', icon: 'bolt',  color: '#4a6d8c', bg: ['#dbe4ea', '#9fb4c3'], sky: ['#6f7f8f', '#b7c2cb'], seaColor: '#36505f',
+    nick: ['Thunderboots', 'Squall'], ship: 'The Thunder Mug', attack: ['Thunder Shanty', 70, 'Sings so loud the sky joins in. Flip a coin: if heads, it rains on the opponent only.'] },
+  island: { art: { bg: '#f1d7a6', sun: '#fbefcf', sea: '#3f9aa6' }, name: 'Island', sea: 'The sunny Caribbean', icon: 'leaf',  color: '#3f7d2b', bg: ['#e3efc4', '#a9cd7c'], sky: ['#62bde6', '#d8f1f7'], seaColor: '#1f8fae',
+    nick: ['Coconut', 'Sunburn'], ship: 'The Coconut Express', attack: ['Coconut Bonk', 60, 'Coconuts never miss. Mostly.'] },
+  ghost:  { art: { bg: '#c9c0d8', sun: '#f0ecf4', sea: '#5a5878' }, name: 'Ghost',  sea: 'The haunted fog banks', icon: 'skull', color: '#5d4a8a', bg: ['#e4dfee', '#ab9ccb'], sky: ['#5c5577', '#aaa4be'], seaColor: '#3e4a5e',
+    nick: ['Bonesy', 'Fog-Breath'], ship: 'The Creaky Whisper', attack: ['Spooky Creak', 70, 'The opponent hears a creak behind them. It\'s just the ship. Probably.'] },
+  fire:   { art: { bg: '#f0b48a', sun: '#fadfb4', sea: '#5a4a5e' }, name: 'Cannon', sea: 'The volcano isles', icon: 'flame', color: '#b53a1e', bg: ['#f7d9c0', '#e79a6c'], sky: ['#e2683c', '#f6c27a'], seaColor: '#2f4f63',
+    nick: ['Powderkeg', 'Hotshot'], ship: 'The Powder Keg', attack: ['Cannonball Run', 90, 'Discard 2 cannonballs. You only had 1, so borrow one.'] },
+  deep:   { art: { bg: '#9fcbd0', sun: '#dcefe9', sea: '#245e6c' }, name: 'Kraken', sea: 'The bottomless deep', icon: 'tentacle', color: '#1f5f73', bg: ['#cfe8ed', '#6fb1c2'], sky: ['#1d5f73', '#4fa3b5'], seaColor: '#0f3d4d',
+    nick: ['Barnacle', 'Ink-Spitter'], ship: 'The Bottomless Bucket', attack: ['Tentacle Hug', 70, 'Wholesome, but extremely damp.'] },
+  gold:   { art: { bg: '#f0d78a', sun: '#fbf1c8', sea: '#3c8a8a' }, name: 'Gold',   sea: 'The Golden Coast', icon: 'coin',  color: '#9a7414', bg: ['#f6ebbd', '#e0c25f'], sky: ['#f2c14e', '#fbe6a8'], seaColor: '#2c7f8f',
+    nick: ['Doubloon', 'Shiny'], ship: 'The Shiny Penny', attack: ['Bribe', 80, 'The opponent leaves happily with 3 doubloons. You keep the rest.'] },
+};
+
+const CHEST = {
+  share: { label: 'Share it with the crew', base: 12000, nick: ['Fair-Share', 'Good Egg'], ship: 'The Fair Share',
+    attack: ['Share the Loot', 60, 'Both players draw a card. Nobody feels bad about anything.'], feat: 'Once shared an entire treasure and still left a tip' },
+  party: { label: 'Spend it all in one night', base: 30000, nick: ['Party Barrel', 'Last Round'], ship: 'The Floating Party',
+    attack: ['Party Till Dawn', 90, 'This pirate sleeps through the whole next turn.'], feat: 'Once threw a party that lasted from one Tuesday to the next' },
+  bury:  { label: 'Bury it and draw a map', base: 45000, nick: ['X-Marks', 'Shovel'], ship: 'The X on the Map',
+    attack: ['X Marks the Spot', 80, 'Bury one of your cards. You will never find it again.'], feat: 'Once buried a treasure so well that not even the map can find it' },
+  count: { label: 'Count it. Every. Single. Night.', base: 80000, nick: ['Penny-Pincher', 'Tightfist'], ship: 'The Last Doubloon',
+    attack: ['Count the Gold', 100, 'Does 10 more damage for every coin counted. Takes all night.'], feat: 'Once counted a mountain of doubloons without losing count (almost)' },
+};
+
+const FOOD = {
+  pizza:     { label: 'Pizza', bits: ['Pepperoni', 'Cheesecrust', 'Extra-Cheese'], ship: 'The Extra Cheese', quest: 'the island where pizza grows on trees',
+    attack: ['Pizza Frisbee', 30, 'Flip a coin. If heads, the opponent stops to eat it.'] },
+  tacos:     { label: 'Tacos', bits: ['Guacamole', 'Jalapeño', 'Crunchy-Shell'], ship: 'The Crunchy Shell', quest: 'a taco that doesn\'t fall apart on the first bite',
+    attack: ['Taco Tuesday', 40, 'Does double damage on Tuesdays. Today might be Tuesday.'] },
+  sushi:     { label: 'Sushi', bits: ['Wasabi', 'Chopstick', 'Salmon'], ship: 'The Wasabi Wave', quest: 'the fish that slices and serves itself',
+    attack: ['Wasabi Surprise', 30, 'The opponent\'s eyes water. They can\'t aim next turn.'] },
+  burgers:   { label: 'Burgers', bits: ['Double-Patty', 'Pickle', 'Ketchup'], ship: 'The Double Patty', quest: 'a burger that actually fits in a mouth',
+    attack: ['Patty Slam', 50, 'Heavy, delicious and messy. This pirate needs a nap afterwards.'] },
+  pasta:     { label: 'Pasta', bits: ['Spaghetti', 'Meatball', 'Al-Dente'], ship: 'The Al Dente', quest: 'the bottomless bowl of spaghetti',
+    attack: ['Spaghetti Lasso', 30, 'Ties up the opponent for one turn. Very messily.'] },
+  chocolate: { label: 'Chocolate', bits: ['Cocoa', 'Fudge', 'Truffle'], ship: 'The Melting Bar', quest: 'the legendary river of chocolate',
+    attack: ['Melted Doubloon', 20, 'Heal 20 damage. Everyone feels a little better.'] },
+  icecream:  { label: 'Ice cream', bits: ['Sprinkles', 'Sundae', 'Double-Scoop'], ship: 'The Brain Freeze', quest: 'ice cream that never melts in the tropics',
+    attack: ['Brain Freeze', 40, 'Both pirates are confused for one turn.'] },
+  fries:     { label: 'Fries', bits: ['Salty', 'Curly-Fry', 'Vinegar'], ship: 'The Salty Chip', quest: 'a single fry the seagulls haven\'t stolen',
+    attack: ['Salty Barrage', 30, 'Throw 3 fries. Seagulls steal 2 of them.'] },
+  salad:     { label: 'Salad', bits: ['Lettuce', 'Crouton', 'Broccoli'], ship: 'The Crouton Queen', quest: 'a salad someone actually wants to eat',
+    attack: ['Leafy Lecture', 10, 'The opponent eats a vegetable and becomes slightly healthier.'] },
+  curry:     { label: 'Curry', bits: ['Vindaloo', 'Naan', 'Chilli'], ship: 'The Extra Hot', quest: 'a curry spicy enough to light the cannons',
+    attack: ['Vindaloo Breath', 40, 'The opponent\'s eyebrows are singed.'] },
+  dumplings: { label: 'Dumplings', bits: ['Dumpling', 'Bao', 'Wonton'], ship: 'The Steamy Basket', quest: 'the bamboo basket that never runs out',
+    attack: ['Dumpling Volley', 30, 'Throw 8 dumplings. Eat 5 of them first.'] },
+  paella:    { label: 'Paella', bits: ['Saffron', 'Socarrat', 'Prawn'], ship: 'The Golden Pan', quest: 'the perfect crispy rice at the bottom of the pan',
+    attack: ['Pan Slam', 50, 'Hits with the whole pan. Nobody touches the socarrat.'] },
+};
+
+const JOBS = [
+  ['Accountant', 'Did the books for a bank that ended up at the bottom of the sea'],
+  ['Teacher', 'Taught cabin kids until recess turned into a mutiny'],
+  ['Barista', 'Brewed coffee so strong it powered a galleon'],
+  ['Programmer', 'Fixed spyglasses by turning them off and on again'],
+  ['Nurse', 'Patched up peg legs with plasters and patience'],
+  ['Student', 'Went to the library to study and got lost. At sea'],
+  ['Influencer', 'Had a million followers. Most of them were seagulls'],
+  ['Gym Rat', 'Won three regattas by swimming, having forgotten the boat'],
+  ['Salesperson', 'Sold treasure maps door to door. Some were even real'],
+  ['Dentist', 'Was the only one brave enough to check a kraken\'s teeth'],
+  ['Chef', 'Cooked boot soup so good the Navy asked for the recipe'],
+  ['Office Worker', 'Escaped a very long meeting through a porthole'],
+];
+const GENERIC_ORIGINS = ['Arrived in the Caribbean by mistake after booking a beach holiday', 'Learned to sail in a bathtub with a rubber duck as first mate'];
+const GENERIC_FEATS = ['Once arm-wrestled an octopus and won (eight times)', 'Once escaped the Navy on a pedal boat', 'Once mistook a kraken for an island and opened a snack bar on it',
+  'Once won a duel using only a baguette', 'Once sailed around the world by accident', 'Once talked a shark into becoming vegetarian'];
+const FEARS = ['Fears only one thing: Mondays.', 'Terrified of spiders, which is awkward on a wooden ship.', 'Panics when the spyglass battery drops below 20%.', 'Cannot swim. Nobody asks.', 'Covers both ears when the parrot talks, in case of spoilers.', 'Turns the ship around at the sight of a clown.',
+  'Gets seasick in the bath.', 'Still sleeps with a nightlight shaped like a lighthouse.', 'Has never once found the treasure.'];
+const BODY = ['Eye', 'Beard', 'Fist', 'Belly', 'Hook', 'Tooth', 'Leg'];
+const HAIR_NICK = { black: ['Blackbeard', 'Inkhair'], brown: ['Brownbeard', 'Oakhair'], blonde: ['Goldbeard', 'Goldilocks'], ginger: ['Redbeard', 'Flamehair'], grey: ['Silverbeard', 'Silverlocks'], blue: ['Bluebeard', 'Seaweed'] };
+const GENERIC_SHIPS = ['The Soggy Biscuit', 'The Drowsy Mermaid', 'The Wobbly Gull', 'The Shy Kraken', 'The Second-Hand Galleon', 'The Leaky Teapot', 'The Grumpy Barnacle', 'The Flying Dutch Oven', 'The S.S. Spacefast'];
+const PETS = [{ n: 'parrot', w: 5 }, { n: 'crab', w: 2 }, { n: 'seagull', w: 1 }, { n: 'octopus', w: 1 }, { n: 'one-eyed cat', w: 1 }, { n: 'monkey', w: 1 }, { n: 'turtle', w: 1 }];
+const PET_NAMES = ['Captain Feathers', 'Biscuit', 'Sir Squawk', 'Lola', 'Torpedo', 'Pickles', 'Sergeant Seeds', 'Noodle', 'Admiral Crumbs', 'Barnacle Bob', 'Pepper', 'Mopsy',
+  'Gus', 'Waffles', 'Professor Pinch', 'Dolores', 'Sprocket', 'Mister Mustard', 'Pudding', 'Kevin', 'Duchess', 'Bubbles'];
+const PET_TRAITS = ['only ever squawks "spoilers!"', 'repeats every secret on board, loudly', 'has more followers than the whole ship', 'silently judges everyone', 'steals biscuits and blames the crew', 'is convinced it\'s the real captain', 'wears a matching eye patch', 'charges for advice in sunflower seeds', 'snores louder than the cannons', 'knows where the treasure is and won\'t say',
+  'only eats food that costs extra', 'is learning the accordion', 'once bit an admiral', 'keeps a diary about the crew', 'is afraid of water, oddly'];
+
+// ---------- Generators: every part combines with every other, so two cards rarely match ----------
+const ATTACK_FORMS = ['{X} Slam', '{X} Barrage', '{X} Frisbee', 'Flying {X}', '{X} Ambush', 'Double {X}', '{X} Tornado', 'Sneaky {X}', '{X} of Doom',
+  '{X} Shanty', '{X} Uppercut', '{X} Cannonade', 'Mega {X}', '{X} Surprise', 'Forbidden {X}', '{X} Hurricane', 'Tactical {X}', '{X} Boomerang',
+  '{X} Stampede', 'Accidental {X}', '{X} Avalanche', 'Polite {X}', '{X} Belly Flop', 'Ultimate {X}', 'Very Sticky {X}', '{X} Kerfuffle',
+  'Sudden {X}', '{X} Wobble', 'Legendary {X}', '{X} Tantrum'];
+const FOOD_NOUNS = {
+  pizza: ['Pepperoni', 'Crust', 'Cheese Pull', 'Pizza Box', 'Garlic Knot', 'Anchovy', 'Slice'],
+  tacos: ['Taco', 'Guacamole', 'Salsa', 'Jalapeño', 'Nacho', 'Burrito', 'Hot Sauce'],
+  sushi: ['Wasabi', 'Chopstick', 'Maki Roll', 'Soy Sauce', 'Tuna Roll', 'Pickled Ginger', 'Edamame'],
+  burgers: ['Patty', 'Pickle', 'Ketchup', 'Bun', 'Onion Ring', 'Cheeseburger', 'Milkshake'],
+  pasta: ['Spaghetti', 'Meatball', 'Lasagna', 'Parmesan', 'Ravioli', 'Noodle', 'Pesto'],
+  chocolate: ['Cocoa', 'Fudge', 'Truffle', 'Brownie', 'Chocolate Coin', 'Hot Chocolate', 'Bonbon'],
+  icecream: ['Sprinkle', 'Sundae', 'Waffle Cone', 'Scoop', 'Banana Split', 'Sorbet', 'Popsicle'],
+  fries: ['French Fry', 'Vinegar', 'Curly Fry', 'Ketchup Packet', 'Salt Shaker', 'Potato', 'Mayo'],
+  salad: ['Lettuce', 'Crouton', 'Broccoli', 'Kale', 'Cucumber', 'Radish', 'Vinaigrette'],
+  curry: ['Vindaloo', 'Naan', 'Chilli', 'Poppadom', 'Mango Chutney', 'Garam Masala', 'Samosa'],
+  dumplings: ['Dumpling', 'Bao Bun', 'Wonton', 'Spring Roll', 'Chopstick', 'Soy Dip', 'Bamboo Basket'],
+  paella: ['Saffron', 'Socarrat', 'Prawn', 'Paella Pan', 'Lemon Wedge', 'Mussel', 'Rice Grain'],
+};
+const CHEST_NOUNS = {
+  share: ['Group Hug', 'Fair Share', 'Doubloon Gift', 'Generous Tip', 'High Five'],
+  party: ['Party Barrel', 'Confetti', 'Conga Line', 'Disco Anchor', 'Karaoke'],
+  bury: ['Shovel', 'Treasure Map', 'Sand Pit', 'Secret X', 'Buried Boot'],
+  count: ['Abacus', 'Coin Stack', 'Piggy Bank', 'Gold Count', 'Receipt'],
+};
+const TYPE_NOUNS = {
+  storm: ['Thunder', 'Squall', 'Lightning', 'Drizzle', 'Hailstone', 'Gale'],
+  island: ['Coconut', 'Palm Frond', 'Pineapple', 'Sandcastle', 'Hammock', 'Flip-Flop'],
+  ghost: ['Ghost', 'Bone', 'Chain Rattle', 'Spooky Fog', 'Creaky Plank', 'Boo'],
+  fire: ['Cannonball', 'Powder Keg', 'Fuse', 'Firework', 'Lava', 'Spark'],
+  deep: ['Tentacle', 'Ink Cloud', 'Barnacle', 'Jellyfish', 'Anglerfish', 'Bubble'],
+  gold: ['Doubloon', 'Gold Bar', 'Jewel', 'Bribe', 'Treasure Chest', 'Shiny Coin'],
+};
+const GENERIC_NOUNS = ['Anchor', 'Plank', 'Parrot', 'Cutlass', 'Hook', 'Peg Leg', 'Eye Patch', 'Bilge Bucket', 'Spyglass', 'Seagull', 'Sea Shanty',
+  'Barrel', 'Sock', 'Wet Boot', 'Compass', 'Rubber Duck', 'Mop', 'Tricorn', 'Message in a Bottle', 'Crab', 'Ship\'s Biscuit', 'Cannon'];
+const TRIGGERS = ['Flip a coin. If heads,', 'Flip 2 coins. For each heads,', 'Roll a die. On a 6,', 'If it\'s a Tuesday,', 'If the opponent has a parrot,',
+  'If you shout "ARRR!" first,', 'Once per voyage,', 'If anyone nearby is hungry,', 'If the sea is calm,', 'If you can do a pirate accent,',
+  'If the opponent blinks,', 'If this pirate is barefoot,', 'If the moon is out,', 'After a dramatic pause,', 'If the crew is watching,',
+  'If you lost a sock today,', 'If nobody is looking,', 'If the wind is just right,'];
+const EFFECTS = ['the opponent is Confused for one turn.', 'the opponent forgets which way is north.', 'this attack does 30 more damage.',
+  'the opponent stops to eat {food}.', 'the opponent\'s hat flies overboard.', 'heal 20 damage. Ahh.', 'steal 3 of the opponent\'s doubloons.',
+  'the opponent\'s parrot switches sides.', 'the opponent walks a very short plank.', 'the opponent is Soggy until they dry off.',
+  'the opponent sneezes and drops everything.', 'both pirates fall asleep.', 'a seagull steals the opponent\'s lunch.',
+  'the opponent has to sing a sea shanty.', 'the opponent\'s ship springs a small leak.', 'the opponent gets the hiccups.',
+  'swap hats with the opponent.', 'the opponent is Dazzled by yer smile.', 'the crew cheers and ye draw a card.',
+  'the opponent loses their map. Again.', 'the kraken gives ye a thumbs up.', 'the opponent is covered in {x}.',
+  'the opponent slips on a stray {x}.', 'the opponent bursts into tears, then into song.'];
+const TWISTS = ['Nobody knows why.', 'The crew applauds.', 'It smells of {food} for a week.', 'This pirate also gets wet.',
+  'The seagulls are impressed.', 'Totally worth it.', 'The parrot saw everything.', 'Results may vary.', 'Do not try this on land.',
+  'It works more often than it should.', 'Arrr.', 'Mum would not approve.', 'The ship\'s cat is unimpressed.', 'Nobody talks about it afterwards.', 'Faster than a Spacefast deploy.'];
+const FOOD_WORD = { pizza: 'pizza', tacos: 'tacos', sushi: 'sushi', burgers: 'burgers', pasta: 'pasta', chocolate: 'chocolate', icecream: 'ice cream', fries: 'fries', salad: 'salad', curry: 'curry', dumplings: 'dumplings', paella: 'paella' };
+const TITLES = ['Cap\'n', 'Ol\'', 'Mad', 'Lucky', 'Salty', 'Soggy', 'Dread', 'Sneaky', 'One-Sock', 'Admiral', 'Gentle', 'Wee', 'Big', 'Barefoot', 'Rusty'];
+const SURNAME_A = ['Salt', 'Brine', 'Barnacle', 'Grog', 'Kelp', 'Squid', 'Pickle', 'Gull', 'Anchor', 'Plank', 'Crab', 'Thunder', 'Biscuit', 'Sprat', 'Bilge', 'Driftwood', 'Cannon', 'Sea'];
+const SURNAME_B = ['beard', 'bottom', 'whistle', 'britches', 'wick', 'boots', 'belly', 'nose', 'hook', 'socks', 'wig', 'bones', 'snout', 'fingers', 'gizzard', 'shanks', 'bucket', 'wobble'];
+const EPITHETS = ['Unwashed', 'Slightly Damp', 'Magnificent', 'Seasick', 'Unsinkable', 'Moderately Feared', 'Twice-Shipwrecked', 'Snack-Hoarding',
+  'Overdue', 'Loud', 'Lost', 'Barely Punctual', 'Fearsome-ish', 'Unbothered', 'Suspiciously Calm', 'Majestic', 'Sticky', 'Mostly Harmless', 'Sunburnt', 'Well-Rested'];
+const ABILITY_NOUNS = ['Distraction', 'Lookout', 'Squawk', 'Side-Eye', 'Pep Talk', 'Snitching', 'Moral Support', 'Cheap Shot', 'Bad Advice', 'Guard Duty', 'Tantrum', 'Lucky Charm'];
+const ABILITY_EFFECTS = ['Once per turn, {pet} may distract the opponent.', 'Once per turn, peek at the top card of the deck. {pet} will squawk about it.',
+  'When this pirate is hit, {pet} files a formal complaint.', 'Prevents all damage from seagulls.', 'This pirate can\'t be Confused while {pet} is watching.',
+  'Draw a card whenever {pet} says something rude.', 'Opponents must say please.', 'If {pet} is happy, heal 10 damage each turn.',
+  'Once per voyage, {pet} steals the opponent\'s snack.', 'Attacks against this pirate cost one more coin. {pet} insists.'];
+
+function pickUnused(r, list, used) { let v; do { v = r.pick(list); } while (used.has(v)); used.add(v); return v; }
+function makeAttack(r, noun, used, foodWord, minTens, maxTens) {
+  const name = pickUnused(r, ATTACK_FORMS, used).replace('{X}', noun);
+  const effect = pickUnused(r, EFFECTS, used).replace('{food}', foodWord).replace('{x}', noun.toLowerCase());
+  const twist = r.chance(0.5) ? ' ' + pickUnused(r, TWISTS, used).replace('{food}', foodWord) : '';
+  const damage = r.int(minTens, maxTens) * 10;
+  return { name, text: `${pickUnused(r, TRIGGERS, used)} ${effect}${twist}`, damage, cost: damage <= 40 ? 1 : damage <= 80 ? 2 : 3 };
+}
+const RARITY = { common: 'Common', rare: 'Rare', legendary: 'Legendary' };
+
+const STEPS = [
+  { key: 'name', kind: 'text', q: 'What do they call ye, sailor?', hint: 'Yer first name or nickname will do.' },
+  { key: 'skin', kind: 'swatch', q: 'Pick yer skin tone', hint: 'The ship\'s artist is sharpening the pencils.', options: SKIN.map(([c, l], i) => [String(i), l, c]) },
+  { key: 'hairLen', kind: 'choice', q: 'How much hair up top, matey?', hint: 'Yer hat stays on either way.', options: [['bald', 'Bald as a cannonball'], ['short', 'Short'], ['long', 'Long and straight'], ['curly', 'Big and curly'], ['braids', 'Braids or locs']] },
+  { key: 'beard', kind: 'choice', q: 'Any whiskers on that chin?', options: [['none', 'Clean-shaven'], ['moustache', 'A fine moustache'], ['beard', 'A proper beard'], ['legendary', 'A legendary beard']] },
+  { key: 'hair', kind: 'swatch', q: a => a.hairLen === 'bald' ? 'What colour are yer whiskers?' : 'And what colour is it?',
+    skip: a => a.hairLen === 'bald' && a.beard === 'none', options: Object.entries(HAIR).map(([k, [c, l]]) => [k, l, c]) },
+  { key: 'sea', kind: 'choice', q: 'Which sea calls to ye?', hint: 'This sets yer pirate type.', options: Object.entries(TYPES).map(([k, t]) => [k, t.sea, `${t.name} type`]) },
+  { key: 'chest', kind: 'choice', q: 'Ye find a chest full of gold. What do ye do?', options: Object.entries(CHEST).map(([k, c]) => [k, c.label]) },
+  { key: 'food', kind: 'choice', small: true, q: 'Last one: what\'s yer favourite grub?', options: Object.entries(FOOD).map(([k, f]) => [k, f.label]) },
+];
+const FIELDS = STEPS.slice(1).map(s => s.key);
+const EXAMPLE = { name: 'Marina', skin: '2', hairLen: 'long', hair: 'ginger', beard: 'none', sea: 'island', chest: 'bury', food: 'pizza', roll: 0 };
+
+// ---------- Profile ----------
+function displayName(raw) { return raw.trim().replace(/\s+/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '); }
+function seedFor(a) { return cyrb53([a.name.trim().toLowerCase(), ...FIELDS.map(f => a[f]), a.roll].join('|')); }
+function formatNumber(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+function buildProfile(a) {
+  const seed = seedFor(a);
+  const r = makeRng(seed);
+  const type = TYPES[a.sea], chest = CHEST[a.chest], food = FOOD[a.food];
+  const [job, jobOrigin] = r.pick(JOBS);
+  const hasBeard = a.beard === 'beard' || a.beard === 'legendary';
+
+  const nickKind = r.weighted([{ k: 'food', w: 35 }, { k: 'hair', w: 20 }, { k: 'type', w: 25 }, { k: 'chest', w: 20 }]).k;
+  const nick = nickKind === 'food' ? `${r.pick(food.bits)}-${hasBeard && r.chance(0.4) ? 'Beard' : r.pick(BODY)}`
+    : nickKind === 'hair' ? (a.hairLen === 'bald' && !hasBeard ? r.pick(['Cueball', 'Shiny-Dome']) : HAIR_NICK[a.hair][hasBeard ? 0 : 1])
+    : nickKind === 'type' ? r.pick(type.nick) : r.pick(chest.nick);
+  const name = displayName(a.name);
+  const surname = () => r.pick(SURNAME_A) + r.pick(SURNAME_B);
+  const nameStyle = r.weighted([{ k: 'nick', w: 25 }, { k: 'title', w: 30 }, { k: 'the', w: 20 }, { k: 'surname', w: 25 }]).k;
+  const cardName = nameStyle === 'nick' ? `${nick} ${name}`
+    : nameStyle === 'title' ? `${r.pick(TITLES)} ${name} ${surname()}`
+    : nameStyle === 'the' ? `${name} the ${r.pick(EPITHETS)}` : `${name} ${surname()}`;
+
+  const pet = r.weighted(PETS);
+  const petName = r.pick(PET_NAMES);
+  const ability = { name: `${petName}${petName.endsWith('s') ? '\'' : '\'s'} ${r.pick(ABILITY_NOUNS)}`, text: `${petName} the ${pet.n} ${r.pick(PET_TRAITS)}. ${r.pick(ABILITY_EFFECTS).replaceAll('{pet}', petName)}` };
+
+  const used = new Set(), foodWord = FOOD_WORD[a.food];
+  const attacks = [
+    makeAttack(r, r.pick(FOOD_NOUNS[a.food]), used, foodWord, 1, 6),
+    makeAttack(r, r.pick([...CHEST_NOUNS[a.chest], ...TYPE_NOUNS[a.sea], ...GENERIC_NOUNS]), used, foodWord, 5, 13),
+  ];
+
+  const otherTypes = Object.keys(TYPES).filter(k => k !== a.sea);
+  const weakness = r.pick(otherTypes);
+  const resistance = r.chance(0.6) ? r.pick(otherTypes.filter(k => k !== weakness)) : null;
+  const retreat = r.int(1, 3);
+
+  const rarityRoll = r.next();
+  const rarity = rarityRoll < 0.04 ? 'legendary' : rarityRoll < 0.2 ? 'rare' : 'common';
+  const hp = r.int(5, 15) * 10 + (rarity === 'legendary' ? 60 : rarity === 'rare' ? 20 : 0);
+  let bounty = chest.base * (0.6 + r.next() * 1.2) * (rarity === 'legendary' ? 10 : rarity === 'rare' ? 3 : 1);
+  const step = bounty < 100000 ? 500 : 5000;
+  bounty = Math.round(bounty / step) * step;
+
+  const ship = r.pick([type.ship, chest.ship, food.ship, r.pick(GENERIC_SHIPS), r.pick(GENERIC_SHIPS)]);
+  const origin = r.chance(0.75) ? jobOrigin : r.pick(GENERIC_ORIGINS);
+  const feat = r.pick([chest.feat, r.pick(GENERIC_FEATS)]);
+  const flavor = r.pick([`${origin}. ${r.pick(FEARS)}`, `${feat}. Now sails in search of ${food.quest}.`, `${origin}. ${feat}.`]);
+
+  const look = {
+    seed: seed + 3, art: type.art, sunSide: r.pick([-1, 1]),
+    prop: r.weighted([{ k: 'none', w: 3 }, { k: 'ship', w: 3 }, { k: 'island', w: 2 }, { k: 'tentacle', w: a.sea === 'deep' || a.sea === 'ghost' ? 3 : 1 }]).k,
+    seagulls: r.chance(0.35), glasses: r.chance(0.12), bandaid: r.chance(0.15), mole: r.chance(0.2) ? r.pick([-1, 1]) : 0,
+    skin: SKIN[Number(a.skin)][0], hair: HAIR[a.hair][0],
+    beard: { none: 'ninguna', moustache: 'bigote', beard: 'barba', legendary: 'legendaria' }[a.beard],
+    head: r.pick(['egg', 'round', 'long', 'pear']), eyes: r.pick(['dot', 'dot', 'sleepy', 'wide']),
+    nose: r.pick(['bulb', 'button', 'long', 'hook']), mouth: r.pick(['smirk', 'smirk', 'grin', 'grumpy', 'oh']),
+    brows: r.pick(['angry', 'raised', 'flat', 'quirk']), freckles: r.chance(0.35), crowsFeet: r.chance(0.4),
+    tilt: (r.next() - 0.5) * 0.22, gaze: r.int(-2, 2),
+    coat: r.pick(['#7a2a22', '#24405f', '#33502f', '#4e3060', '#4a3422', '#8a5a1c']),
+    stripe: r.pick(['#2f4f7a', '#a8402e', '#2b2b2b']),
+    hat: r.weighted([{ k: 'tricorn', w: 4 }, { k: 'bandana', w: 3 }, { k: 'bicorne', w: 2 }, { k: 'captain', w: 2 }]).k,
+    hatColor: r.pick(['#2a201c', '#3a2a24', '#4a1f1a', '#22303f']),
+    bandana: r.pick(['#b8402a', '#2f5fa3', '#3f7d3a', '#7a4aa3', '#d18a2a']),
+    feather: r.pick(['#efe6d2', '#c0492b', '#3e86b8', '#3b9a5a']),
+    hairLen: a.hairLen, patch: r.chance(0.45) ? r.pick(['l', 'r']) : null, scar: r.chance(0.3),
+    earring: r.chance(0.5), goldTooth: r.chance(0.35),
+    pet: pet.n === 'parrot' || pet.n === 'crab' ? pet.n : null,
+    petColor: r.pick([['#3aa857', '#22773a'], ['#e0553a', '#a8341f'], ['#3a8ec4', '#235f8f'], ['#f0c04e', '#c9952a']]),
+  };
+
+  return {
+    answers: a, seed, name, nick, cardName, job, type: a.sea,
+    ability, attacks, weakness, resistance, retreat, rarity, hp, bounty, ship, flavor, look,
+    number: String(seed % 999 + 1).padStart(3, '0'),
+  };
+}
+
+// ---------- Card ----------
+const CW = 900, CH = 1260;
+const DISPLAY = s => `${s}px "Caprasimo", Georgia, serif`;
+const SANS = (s, w = 400) => `${w} ${s}px "Alegreya Sans", "Gill Sans", "Trebuchet MS", sans-serif`;
+const FELL_I = s => `italic ${s}px "Alegreya", Georgia, serif`;
+
+function roundRect(x, X, Y, w, h, rad) {
+  x.beginPath(); x.moveTo(X + rad, Y);
+  x.arcTo(X + w, Y, X + w, Y + h, rad); x.arcTo(X + w, Y + h, X, Y + h, rad);
+  x.arcTo(X, Y + h, X, Y, rad); x.arcTo(X, Y, X + w, Y, rad); x.closePath();
+}
+function star(x, cx, cy, rad, color) {
+  x.fillStyle = color; x.beginPath();
+  for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? rad * 0.45 : rad; x.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr); }
+  x.closePath(); x.fill();
+}
+
+function typeIcon(x, key, cx, cy, rad) {
+  const colorless = key === 'colorless';
+  const color = colorless ? '#efeae0' : TYPES[key].color;
+  x.save();
+  x.beginPath(); x.arc(cx, cy, rad, 0, Math.PI * 2); x.fillStyle = color; x.fill();
+  x.lineWidth = Math.max(2, rad * 0.12); x.strokeStyle = colorless ? '#8c8578' : '#ffffff'; x.stroke();
+  x.translate(cx, cy); x.scale(rad / 26, rad / 26);
+  x.fillStyle = '#ffffff'; x.strokeStyle = '#ffffff'; x.lineCap = 'round';
+  const icon = colorless ? 'star' : TYPES[key].icon;
+  if (icon === 'star') { star(x, 0, 0, 15, '#8c8578'); }
+  if (icon === 'bolt') { x.beginPath(); [[-3, -18], [10, -18], [3, -4], [11, -4], [-6, 19], [-1, 2], [-9, 2]].forEach(([px, py], i) => i ? x.lineTo(px, py) : x.moveTo(px, py)); x.closePath(); x.fill(); }
+  if (icon === 'leaf') { x.beginPath(); x.ellipse(0, -1, 8, 17, 0.6, 0, Math.PI * 2); x.fill(); x.strokeStyle = color; x.lineWidth = 2.5; x.beginPath(); x.moveTo(-9, 12); x.lineTo(8, -12); x.stroke(); }
+  if (icon === 'skull') { x.beginPath(); x.ellipse(0, -3, 13, 12, 0, 0, Math.PI * 2); x.fill(); x.fillRect(-7, 4, 14, 9); x.fillStyle = color; x.beginPath(); x.arc(-5, -3, 3.6, 0, Math.PI * 2); x.arc(5, -3, 3.6, 0, Math.PI * 2); x.fill(); }
+  if (icon === 'flame') { x.beginPath(); x.moveTo(0, -19); x.bezierCurveTo(13, -6, 15, 6, 9, 14); x.quadraticCurveTo(0, 21, -9, 14); x.bezierCurveTo(-15, 4, -8, -7, 0, -19); x.fill(); x.fillStyle = color; x.beginPath(); x.moveTo(0, -2); x.bezierCurveTo(6, 4, 6, 10, 3, 13); x.quadraticCurveTo(0, 15, -3, 13); x.bezierCurveTo(-6, 9, -4, 4, 0, -2); x.fill(); }
+  if (icon === 'tentacle') { x.lineWidth = 6; x.beginPath(); x.moveTo(-12, 16); x.bezierCurveTo(-14, -6, 4, -20, 12, -8); x.bezierCurveTo(16, -1, 6, 4, 2, -2); x.stroke(); }
+  if (icon === 'coin') { x.lineWidth = 3; x.beginPath(); x.arc(0, 0, 14, 0, Math.PI * 2); x.stroke(); star(x, 0, 0, 8, '#ffffff'); }
+  x.restore();
+}
+
+function rarityMark(x, rarity, cx, cy) {
+  x.fillStyle = '#222';
+  if (rarity === 'common') { x.beginPath(); x.arc(cx, cy, 7, 0, Math.PI * 2); x.fill(); }
+  else if (rarity === 'rare') { x.beginPath(); x.moveTo(cx, cy - 9); x.lineTo(cx + 8, cy); x.lineTo(cx, cy + 9); x.lineTo(cx - 8, cy); x.closePath(); x.fill(); }
+  else star(x, cx, cy, 10, '#222');
+}
+
+function drawFitLine(x, text, X, Y, maxW, font, max, min) {
+  let size = max; x.font = font(size);
+  while (size > min && x.measureText(text).width > maxW) { size -= 2; x.font = font(size); }
+  const w = x.measureText(text).width;
+  if (w <= maxW) { x.fillText(text, X, Y); return; }
+  x.save(); x.translate(X, Y); x.scale(maxW / w, 1); x.fillText(text, 0, 0); x.restore();
+}
+
+function drawCard(p) {
+  const c = document.createElement('canvas'); c.width = CW; c.height = CH;
+  const x = c.getContext('2d');
+  const t = TYPES[p.type];
+  const r = makeRng(p.seed + 11);
+
+  const gold = x.createLinearGradient(0, 0, CW, CH);
+  gold.addColorStop(0, '#f6e08a'); gold.addColorStop(0.5, '#d4ad3f'); gold.addColorStop(1, '#f3d873');
+  roundRect(x, 0, 0, CW, CH, 46); x.fillStyle = gold; x.fill();
+
+  roundRect(x, 26, 26, CW - 52, CH - 52, 24);
+  const body = x.createLinearGradient(0, 26, 0, CH - 26);
+  body.addColorStop(0, t.bg[0]); body.addColorStop(1, t.bg[1]);
+  x.fillStyle = body; x.fill();
+  x.save(); roundRect(x, 26, 26, CW - 52, CH - 52, 24); x.clip();
+  x.strokeStyle = 'rgba(255,255,255,0.22)'; x.lineWidth = 2;
+  for (let i = -CH; i < CW; i += 22) { x.beginPath(); x.moveTo(i, 26); x.lineTo(i + CH, CH); x.stroke(); }
+  for (let i = 0; i < 900; i++) { x.fillStyle = `rgba(60,40,20,${r.next() * 0.06})`; x.fillRect(r.next() * CW, r.next() * CH, 2, 2); }
+  x.restore();
+
+  // Stage and evolution
+  const silver = x.createLinearGradient(0, 46, 0, 76);
+  silver.addColorStop(0, '#fbfbfb'); silver.addColorStop(1, '#a8a8a8');
+  roundRect(x, 50, 46, 120, 30, 15); x.fillStyle = silver; x.fill();
+  x.fillStyle = '#2a2a2a'; x.font = SANS(18, 800); x.textAlign = 'center'; x.fillText('CREW', 110, 68);
+  x.textAlign = 'left'; x.font = FELL_I(23); x.fillText(`Evolves from ${p.job}`, 184, 69);
+
+  // HP and type
+  typeIcon(x, p.type, 814, 108, 28);
+  x.textAlign = 'right'; x.fillStyle = '#c0281c';
+  x.font = SANS(58, 800); const hpText = String(p.hp); const hw = x.measureText(hpText).width;
+  x.fillText(hpText, 772, 130);
+  x.font = SANS(22, 800); x.fillText('HP', 772 - hw - 6, 130);
+  const nameRight = 772 - hw - 6 - x.measureText('HP').width - 20;
+
+  x.textAlign = 'left'; x.fillStyle = '#1a1a1a';
+  drawFitLine(x, p.cardName, 54, 132, nameRight - 54, DISPLAY, 54, 30);
+
+  // Art window
+  const fx = 48, fy = 150, fw = 804, fh = 478;
+  const frame = x.createLinearGradient(fx, fy, fx + fw, fy + fh);
+  frame.addColorStop(0, '#fff6cf'); frame.addColorStop(0.45, '#c9a23a'); frame.addColorStop(1, '#fff0b8');
+  x.fillStyle = frame; x.fillRect(fx, fy, fw, fh);
+  const aw = fw - 20, ah = fh - 20;
+  const art = document.createElement('canvas'); art.width = aw; art.height = ah;
+  const ax = art.getContext('2d'); const s = ah / 470; ax.scale(s, s); drawAvatar(ax, p.look, aw / s);
+  x.drawImage(art, fx + 10, fy + 10);
+  if (p.rarity !== 'common') {
+    const sheen = x.createLinearGradient(fx, fy, fx + fw, fy + fh);
+    ['rgba(255,90,190,0)', 'rgba(255,90,190,0.28)', 'rgba(90,235,255,0.28)', 'rgba(255,238,100,0.28)', 'rgba(255,238,100,0)']
+      .forEach((col, i) => sheen.addColorStop(i / 4, col));
+    x.save(); x.globalCompositeOperation = 'soft-light'; x.fillStyle = sheen; x.fillRect(fx + 10, fy + 10, aw, ah); x.restore();
+  }
+  x.strokeStyle = 'rgba(0,0,0,0.3)'; x.lineWidth = 2; x.strokeRect(fx + 10, fy + 10, aw, ah);
+
+  // Info strip
+  x.beginPath(); x.moveTo(96, 640); x.lineTo(804, 640); x.lineTo(784, 678); x.lineTo(116, 678); x.closePath();
+  x.fillStyle = frame; x.fill();
+  x.fillStyle = '#3a2a10'; x.textAlign = 'center';
+  drawFitLine(x, `${t.name}-type Pirate. Ship: ${p.ship}. Bounty: ${formatNumber(p.bounty)} doubloons.`, CW / 2, 667, 660, FELL_I, 24, 17);
+
+  // Ability (the pet)
+  x.textAlign = 'center';
+  roundRect(x, 64, 694, 124, 34, 8); x.fillStyle = '#c0281c'; x.fill();
+  x.fillStyle = '#ffffff'; x.font = SANS(22, 800); x.fillText('Ability', 126, 718);
+  x.textAlign = 'left'; x.fillStyle = '#c0281c';
+  drawFitLine(x, p.ability.name, 206, 722, 620, s2 => SANS(s2, 800), 34, 24);
+  x.fillStyle = '#1e1e1e';
+  const abText = fitText(x, p.ability.text, 772, 2, s2 => SANS(s2), 25, 18);
+  x.font = SANS(abText.size); drawLines(x, abText.lines, 64, 760, abText.size * 1.2);
+
+  // Attacks
+  p.attacks.forEach((atk, i) => {
+    const y = 836 + i * 130;
+    for (let k = 0; k < atk.cost; k++) typeIcon(x, k === 0 ? p.type : 'colorless', 84 + k * 42, y - 12, 18);
+    x.fillStyle = '#1a1a1a'; x.textAlign = 'left';
+    const nameX = 84 + atk.cost * 42 + 6;
+    drawFitLine(x, atk.name, nameX, y, 700 - nameX, s2 => SANS(s2, 800), 36, 24);
+    x.textAlign = 'right'; x.font = SANS(48, 800); x.fillText(String(atk.damage), 836, y + 2);
+    x.textAlign = 'left';
+    const at = fitText(x, atk.text, 772, 2, s2 => SANS(s2), 25, 18);
+    x.font = SANS(at.size); drawLines(x, at.lines, 64, y + 38, at.size * 1.2);
+    if (i === 0) { x.strokeStyle = 'rgba(0,0,0,0.22)'; x.lineWidth = 2; x.beginPath(); x.moveTo(64, y + 92); x.lineTo(836, y + 92); x.stroke(); }
+  });
+
+  // Weakness, resistance, retreat
+  x.strokeStyle = 'rgba(0,0,0,0.4)'; x.lineWidth = 2; x.beginPath(); x.moveTo(52, 1056); x.lineTo(848, 1056); x.stroke();
+  x.fillStyle = '#2a2a2a'; x.font = SANS(21, 700);
+  x.fillText('weakness', 70, 1082); x.fillText('resistance', 330, 1082); x.fillText('retreat', 610, 1082);
+  x.font = SANS(26, 800);
+  typeIcon(x, p.weakness, 92, 1106, 15); x.fillText('×2', 114, 1115);
+  if (p.resistance) { typeIcon(x, p.resistance, 352, 1106, 15); x.fillText('-30', 374, 1115); } else x.fillText('—', 340, 1115);
+  for (let k = 0; k < p.retreat; k++) typeIcon(x, 'colorless', 632 + k * 36, 1106, 15);
+
+  // Flavor text
+  x.strokeStyle = 'rgba(120,90,30,0.7)'; x.lineWidth = 2; roundRect(x, 56, 1128, 788, 78, 6); x.stroke();
+  x.fillStyle = '#2a2a2a';
+  const fl = fitText(x, p.flavor, 760, 3, FELL_I, 22, 17);
+  x.font = FELL_I(fl.size); drawLines(x, fl.lines, 70, fl.lines.length === 3 ? 1150 : fl.lines.length === 2 ? 1160 : 1174, fl.size * 1.08);
+
+  // Footer
+  x.fillStyle = '#1a1a1a'; x.textAlign = 'left';
+  x.font = SANS(20, 400); const lead = 'Make yours at ';
+  x.fillText(lead, 56, 1231); const leadW = x.measureText(lead).width;
+  x.font = SANS(24, 800); x.fillText(siteLabel(), 56 + leadW, 1231);
+  x.textAlign = 'right'; x.font = SANS(20, 700); x.fillText(`${p.number}/999`, 818, 1231);
+  rarityMark(x, p.rarity, 836, 1224);
+
+  if (p.rarity === 'legendary') {
+    x.save(); roundRect(x, 0, 0, CW, CH, 46); x.clip(); x.globalCompositeOperation = 'soft-light';
+    const holo = x.createLinearGradient(0, 0, CW, CH);
+    ['rgba(255,90,190,0.35)', 'rgba(90,235,255,0.35)', 'rgba(255,238,100,0.35)', 'rgba(140,255,150,0.35)', 'rgba(255,90,190,0.35)']
+      .forEach((col, i) => holo.addColorStop(i / 4, col));
+    x.fillStyle = holo; x.fillRect(0, 0, CW, CH); x.restore();
+  }
+  return c;
+}
+
+function siteLabel() {
+  const host = location.hostname;
+  return host && !/claude|anthropic|localhost|^127\./.test(host) ? host.replace(/^www\./, '') : 'whatpirateareye.view.fast';
+}
+
+// ---------- Share token ----------
+function encodeToken(a) {
+  const bytes = new TextEncoder().encode(JSON.stringify([a.name, ...FIELDS.map(f => a[f]), a.roll]));
+  let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
+  return 'c' + btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function decodeToken(token) {
+  try {
+    if (!token.startsWith('c')) return null;
+    const b64 = token.slice(1).replace(/-/g, '+').replace(/_/g, '/');
+    const arr = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(b64 + '='.repeat((4 - b64.length % 4) % 4)), ch => ch.charCodeAt(0))));
+    if (!Array.isArray(arr) || arr.length !== FIELDS.length + 2) return null;
+    const a = { name: cleanName(String(arr[0])), roll: Math.max(0, Math.min(999, Number(arr[arr.length - 1]) | 0)) };
+    for (const [i, key] of FIELDS.entries()) {
+      const step = STEPS.find(s => s.key === key);
+      if (!step.options.some(([v]) => v === arr[i + 1])) return null;
+      a[key] = arr[i + 1];
+    }
+    return a.name ? a : null;
+  } catch { return null; }
+}
+function cleanName(s) { return s.replace(/[\u0000-\u001f\u007f<>]/g, '').trim().slice(0, 20); }
+
+// ---------- UI ----------
+const $ = id => document.getElementById(id);
+const answers = { name: '', roll: 0 };
+let stepIndex = 0, current = null, currentBlob = null, currentUrl = null, cameFromLink = false;
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function showScreen(id) {
+  for (const s of ['intro', 'quiz', 'result']) $(`screen-${s}`).hidden = s !== id;
+  window.scrollTo({ top: 0 });
+}
+
+const QUIPS = {
+  name: 'Make it a good one.', skin: 'Mixing the paints...', hairLen: 'I\'m bald too. Feathers count.',
+  beard: 'Mine is feathers.', hair: 'Ooh. Fancy.', sea: 'I get seasick. Don\'t tell.',
+  chest: 'I would eat it.', food: 'Crackers. The answer is crackers.',
+};
+const isSkipped = i => !!STEPS[i].skip?.(answers);
+function visibleSteps() { return STEPS.filter((_, i) => !isSkipped(i)); }
+function renderTrail() {
+  const steps = visibleSteps();
+  $('voyage').style.setProperty('--p', String(steps.indexOf(STEPS[stepIndex]) / steps.length));
+}
+
+function renderStep() {
+  const step = STEPS[stepIndex];
+  renderTrail();
+  const steps = visibleSteps();
+  $('step-label').textContent = `Leg ${steps.indexOf(step) + 1} of yer voyage`;
+  $('question').textContent = typeof step.q === 'function' ? step.q(answers) : step.q;
+  $('quip').textContent = QUIPS[step.key];
+  $('hint').textContent = step.hint || '';
+  $('hint').hidden = !step.hint;
+  const host = $('answer'); host.replaceChildren();
+
+  if (step.kind === 'text') {
+    const formEl = document.createElement('form'); formEl.className = 'name-row'; formEl.noValidate = true;
+    const input = document.createElement('input'); input.className = 'name-input'; input.id = 'name'; input.maxLength = 20;
+    input.autocomplete = 'given-name'; input.placeholder = 'e.g. Marina'; input.value = answers.name; input.setAttribute('aria-label', 'Your name');
+    const go = document.createElement('button'); go.className = 'btn btn-primary'; go.type = 'submit'; go.textContent = 'Aye, that\'s me';
+    const err = document.createElement('p'); err.className = 'error'; err.hidden = true; err.textContent = 'Every pirate needs a name, matey.';
+    formEl.append(input, go); host.append(formEl, err);
+    formEl.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = cleanName(input.value);
+      if (!name) { err.hidden = false; input.focus(); return; }
+      answers.name = name; next();
+    });
+    input.focus();
+    return;
+  }
+
+  const box = document.createElement('div');
+  box.className = step.kind === 'swatch' ? 'swatches' : 'options' + (step.small ? ' small' : '');
+  for (const [value, label, extra] of step.options) {
+    const b = document.createElement('button'); b.type = 'button';
+    b.setAttribute('aria-pressed', String(answers[step.key] === value));
+    if (step.kind === 'swatch') { b.className = 'swatch'; b.style.setProperty('--c', extra); b.setAttribute('aria-label', label); b.title = label; }
+    else { b.className = 'opt'; b.textContent = label; if (extra) { const sub = document.createElement('span'); sub.textContent = extra; b.append(sub); } }
+    b.addEventListener('click', () => {
+      answers[step.key] = value;
+      box.querySelectorAll('button').forEach(el => el.setAttribute('aria-pressed', String(el === b)));
+      setTimeout(next, reduceMotion ? 0 : 220);
+    });
+    box.append(b);
+  }
+  host.append(box);
+  $('question').focus({ preventScroll: true });
+}
+
+function next() {
+  let i = stepIndex + 1;
+  while (i < STEPS.length && isSkipped(i)) i++;
+  if (i < STEPS.length) { stepIndex = i; renderStep(); return; }
+  // A bald, clean-shaven pirate never sees the colour step; the portrait doesn't use it.
+  answers.hair ??= 'black';
+  answers.roll = 0; cameFromLink = false;
+  reveal({ ...answers });
+}
+
+async function fontsReady() {
+  if (!document.fonts) return;
+  const loads = ['54px "Caprasimo"', '800 30px "Alegreya Sans"', '400 22px "Alegreya Sans"', 'italic 20px "Alegreya"'].map(f => document.fonts.load(f));
+  await Promise.race([Promise.all(loads), new Promise(res => setTimeout(res, 3000))]).catch(() => {});
+}
+
+async function renderCardImage(a) {
+  await fontsReady();
+  const profile = buildProfile(a);
+  const canvas = drawCard(profile);
+  const blob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+  return { profile, blob, url: URL.createObjectURL(blob) };
+}
+
+async function reveal(a) {
+  const { profile, blob, url } = await renderCardImage(a);
+  if (currentUrl) URL.revokeObjectURL(currentUrl);
+  current = profile; currentBlob = blob; currentUrl = url;
+  const img = $('card-img');
+  img.src = url;
+  img.alt = `Pirate card: ${profile.cardName}, ${TYPES[profile.type].name} type, ${profile.hp} HP, ${RARITY[profile.rarity]}. Attacks: ${profile.attacks.map(at => `${at.name} (${at.damage})`).join(', ')}.`;
+  $('result-title').textContent = cameFromLink ? `Meet ${profile.cardName}` : `Ahoy, ${profile.cardName}!`;
+  $('result-lead').innerHTML = '';
+  $('result-lead').append(`${TYPES[profile.type].name}-type pirate · `, Object.assign(document.createElement('b'), { textContent: RARITY[profile.rarity] }), ` card · ${profile.number}/999`);
+  $('btn-restart').textContent = cameFromLink ? 'Make yer own' : 'New voyage';
+  const grade = { common: ['Near Mint 7', 'Common pull'], rare: ['Mint 9', 'Rare pull!'], legendary: ['Gem Mint 10', 'Legendary pull!!'] }[profile.rarity];
+  $('slab-name').textContent = profile.cardName;
+  $('slab-grade').textContent = grade[0];
+  $('slab-type').textContent = `${TYPES[profile.type].name}-type pirate`;
+  $('slab-cert').textContent = `Cert ${profile.number}${String(profile.seed % 100000).padStart(5, '0')}`;
+  $('pull-sticker').textContent = grade[1];
+  if (profile.rarity === 'common') {
+    const link = Object.assign(document.createElement('a'), { href: 'https://spacefast.com', target: '_blank', rel: 'noopener', textContent: 'Spacefast' });
+    $('status').replaceChildren('Painted by Gerald. Delivered by ', link, '.');
+  } else setStatus(profile.rarity === 'legendary' ? 'A legendary card! Fewer than 1 in 20 pirates get one.' : 'A rare card. Not bad, sailor.');
+  const holo = { common: 0, rare: 0.45, legendary: 0.85 }[profile.rarity];
+  $('card-stage').style.setProperty('--holo', holo);
+  showScreen('result');
+  const flipper = $('flipper');
+  flipper.classList.remove('revealed');
+  void flipper.offsetWidth;
+  setTimeout(() => flipper.classList.add('revealed'), reduceMotion ? 0 : 250);
+  try { history.replaceState(null, '', '#' + encodeToken(a)); } catch {}
+}
+
+function attachTilt(stage) {
+  if (reduceMotion) return;
+  const tilt = stage.querySelector('.tilt');
+  stage.addEventListener('pointermove', e => {
+    const rect = stage.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width, py = (e.clientY - rect.top) / rect.height;
+    tilt.style.setProperty('--ry', `${(px - 0.5) * 18}deg`);
+    tilt.style.setProperty('--rx', `${(0.5 - py) * 18}deg`);
+    stage.style.setProperty('--mx', `${px * 100}%`); stage.style.setProperty('--my', `${py * 100}%`);
+    stage.style.setProperty('--gx', `${px * 100}%`); stage.style.setProperty('--gy', `${py * 100}%`);
+    stage.style.setProperty('--glare', '0.7');
+  });
+  stage.addEventListener('pointerleave', () => {
+    tilt.style.setProperty('--ry', '0deg'); tilt.style.setProperty('--rx', '0deg');
+    stage.style.setProperty('--glare', '0.25');
+  });
+}
+
+function setStatus(msg) { $('status').textContent = msg; }
+function shareUrl() { return location.href.split('#')[0] + '#' + encodeToken(current.answers); }
+function slug(s) { return s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'pirate'; }
+
+async function copyLink() {
+  const url = shareUrl();
+  try { await navigator.clipboard.writeText(url); $('link-out').hidden = true; setStatus('Link copied. Send it to yer crew.'); }
+  catch { const out = $('link-out'); out.hidden = false; out.value = url; out.select(); setStatus('Copy this link:'); }
+}
+
+$('btn-start').addEventListener('click', () => { stepIndex = 0; showScreen('quiz'); renderStep(); });
+$('brand').addEventListener('click', () => { history.replaceState(null, '', location.pathname + location.search); showScreen('intro'); });
+$('btn-back').addEventListener('click', () => {
+  let i = stepIndex - 1;
+  while (i > 0 && isSkipped(i)) i--;
+  if (i < 0) showScreen('intro'); else { stepIndex = i; renderStep(); }
+});
+$('btn-restart').addEventListener('click', () => {
+  if (cameFromLink) { for (const k of FIELDS) delete answers[k]; answers.name = ''; cameFromLink = false; }
+  stepIndex = 0; showScreen('quiz'); renderStep();
+});
+$('btn-reroll').addEventListener('click', () => reveal({ ...current.answers, roll: (current.answers.roll + 1) % 1000 }));
+$('btn-download').addEventListener('click', () => {
+  const link = document.createElement('a'); link.href = currentUrl; link.download = `pirate-card-${slug(current.name)}.png`;
+  document.body.append(link); link.click(); link.remove();
+});
+$('btn-share').addEventListener('click', async () => {
+  const file = new File([currentBlob], `pirate-card-${slug(current.name)}.png`, { type: 'image/png' });
+  const data = { title: 'What Pirate Are Ye?', text: `I'm ${current.cardName}, a ${RARITY[current.rarity].toLowerCase()} ${TYPES[current.type].name}-type pirate. What pirate are ye?`, url: shareUrl() };
+  try {
+    if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ ...data, files: [file] }); return; }
+    if (navigator.share) { await navigator.share(data); return; }
+  } catch (err) { if (err && err.name === 'AbortError') return; }
+  copyLink();
+});
+
+attachTilt($('card-stage'));
+const SAMPLES = [
+  { name: 'Marina', skin: '2', hairLen: 'long', hair: 'ginger', beard: 'none', sea: 'island', chest: 'bury', food: 'pizza', roll: 0 },
+  { name: 'Otis', skin: '4', hairLen: 'bald', hair: 'grey', beard: 'legendary', sea: 'ghost', chest: 'party', food: 'tacos', roll: 0 },
+  { name: 'Yuki', skin: '1', hairLen: 'short', hair: 'blue', beard: 'none', sea: 'deep', chest: 'count', food: 'sushi', roll: 2 },
+];
+Promise.all(SAMPLES.map(renderCardImage)).then(cards => {
+  for (const { profile, url } of cards) {
+    const img = new Image(900, 1260); img.src = url;
+    img.alt = `Sample card: ${profile.cardName}, ${TYPES[profile.type].name} type`;
+    $('fan').append(img);
+  }
+});
+
+// Gerald's eyes follow the pointer on the intro.
+const geraldBig = $('gerald-big');
+geraldBig.innerHTML = document.getElementById('gerald').innerHTML;
+const pupils = [...geraldBig.querySelectorAll('.pupil')];
+if (!reduceMotion) window.addEventListener('pointermove', e => {
+  const box = geraldBig.getBoundingClientRect();
+  const dx = e.clientX - (box.left + box.width * 0.52), dy = e.clientY - (box.top + box.height * 0.33);
+  const len = Math.hypot(dx, dy) || 1;
+  for (const p of pupils) p.setAttribute('transform', `translate(${(dx / len) * 9} ${(dy / len) * 9})`);
+});
+
+const fromLink = decodeToken(location.hash.slice(1));
+if (fromLink) { Object.assign(answers, fromLink); cameFromLink = true; reveal(fromLink); }
+</script>
