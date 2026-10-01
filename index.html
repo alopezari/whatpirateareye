@@ -103,7 +103,14 @@
   .chat { position: absolute; right: 0; top: clamp(70px, 9vw, 100px); width: clamp(90px, 15vw, 150px); }
   .chat svg { width: 100%; height: auto; display: block; }
   .bubble { position: absolute; right: 80%; top: -14px; width: max-content; max-width: 190px; background: var(--cream); border: var(--line); padding: 8px 10px; font-family: var(--hand); font-size: 18px; line-height: 1.15; transform: rotate(-3deg); }
-  @media (max-width: 640px) { .chat { display: none; } .quiz h2 { padding-right: 0; } }
+  @media (max-width: 640px) {
+    .chat { position: fixed; top: auto; right: 12px; bottom: 14px; width: 78px; z-index: 5; }
+    .chat .bubble { right: 92%; top: -22px; max-width: 150px; font-size: 16px; }
+    .quiz { padding-bottom: 120px; }
+    .quiz h2 { padding-right: 0; }
+  }
+  .chat svg { transition: transform .15s; transform-origin: 50% 100%; }
+  .chat.hungry svg { transform: scale(1.18) rotate(-4deg); }
 
   .options { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 16px; margin-top: 30px; }
   .options.small { grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); }
@@ -133,6 +140,7 @@
   .bg-gerald svg, .fight-cloud svg, .fake-cursor svg, .burst svg { width: 100%; height: auto; display: block; overflow: visible; }
   .fake-cursor { width: 54px; transform-origin: 0 0; filter: drop-shadow(4px 4px 0 var(--ink)); }
   .fight-cloud, .fake-cursor, .bg-gerald { visibility: hidden; }
+  .brawl .bg-gerald.dare { pointer-events: auto; cursor: pointer; }
   .fight-cloud text { font-family: var(--head); }
   .bg-bubble { margin: 0; display: none; width: max-content; max-width: min(280px, 80vw); background: var(--cream); border: var(--line); box-shadow: 5px 5px 0 var(--ink); padding: 8px 14px; font-family: var(--hand); font-size: clamp(22px, 3.4vw, 32px); line-height: 1.1; }
   .burst { width: clamp(110px, 18vw, 170px); }
@@ -1213,7 +1221,7 @@ function showScreen(id) {
 const QUIPS = {
   name: 'Make it a good one.', skin: 'Mixing the paints...', hairLen: 'I\'m bald too. Feathers count.',
   beard: 'Mine is feathers.', hair: 'Ooh. Fancy.', sea: 'I get seasick. Don\'t tell.',
-  chest: 'I would eat it.', food: 'Crackers. The answer is crackers.',
+  chest: 'I would eat it.', food: 'Crackers. Bring me some.',
 };
 const isSkipped = i => !!STEPS[i].skip?.(answers);
 function visibleSteps() { return STEPS.filter((_, i) => !isSkipped(i)); }
@@ -1227,6 +1235,7 @@ function renderStep() {
   renderTrail();
   const steps = visibleSteps();
   $('step-label').textContent = `Leg ${steps.indexOf(step) + 1} of yer voyage`;
+  $('question').removeAttribute('style');
   $('question').textContent = typeof step.q === 'function' ? step.q(answers) : step.q;
   $('quip').textContent = QUIPS[step.key];
   $('hint').textContent = step.hint || '';
@@ -1393,15 +1402,16 @@ Promise.all(SAMPLES.map(renderCardImage)).then(cards => {
 });
 
 // Easter egg: drag any food on the menu and Gerald takes the whole site down.
+let geraldMood = 'calm';
 function enableFoodDrag(box) {
   let swallowClick = false;
   box.addEventListener('click', e => { if (swallowClick) e.stopPropagation(); }, true);
   box.addEventListener('pointerdown', down => {
     const opt = down.target.closest('.opt');
-    if (!opt || !down.isPrimary || down.button !== 0) return;
+    if (!opt || !down.isPrimary || down.button !== 0 || geraldMood !== 'calm') return;
     // A touch must be held before it drags; otherwise the finger is scrolling the page.
     const isMouse = down.pointerType === 'mouse';
-    let ghost = null, offset = null;
+    let ghost = null, offset = null, mouth = null, overGerald = false;
     const lift = () => {
       const r = opt.getBoundingClientRect();
       offset = { x: down.clientX - r.left, y: down.clientY - r.top };
@@ -1410,6 +1420,8 @@ function enableFoodDrag(box) {
       document.body.append(ghost);
       opt.style.visibility = 'hidden';
       $('quip').textContent = 'Is that... FOOD?';
+      const g = document.querySelector('.chat svg').getBoundingClientRect();
+      mouth = { left: g.left - 24, right: g.right + 24, top: g.top - 24, bottom: g.bottom + 24 };
       if (!reduceMotion) loadBrawlKit();
     };
     const holdTimer = isMouse ? 0 : setTimeout(lift, 350);
@@ -1421,12 +1433,23 @@ function enableFoodDrag(box) {
         lift();
       }
       ghost.style.left = e.clientX - offset.x + 'px'; ghost.style.top = e.clientY - offset.y + 'px';
+      const over = e.clientX > mouth.left && e.clientX < mouth.right && e.clientY > mouth.top && e.clientY < mouth.bottom;
+      if (over !== overGerald) {
+        overGerald = over;
+        document.querySelector('.chat').classList.toggle('hungry', over);
+        $('quip').textContent = over ? 'GIVE.' : 'Is that... FOOD?';
+      }
     };
     const up = e => {
       end();
       if (!ghost) return;
       swallowClick = true; setTimeout(() => { swallowClick = false; }, 0);
-      startMeltdown(ghost, { x: e.clientX, y: e.clientY });
+      document.querySelector('.chat').classList.remove('hungry');
+      if (overGerald) return startMeltdown(ghost, { x: e.clientX, y: e.clientY });
+      const slot = opt.getBoundingClientRect();
+      ghost.animate([{}, { left: slot.left + 'px', top: slot.top + 'px', transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.3,1.4,.5,1)', fill: 'forwards' })
+        .onfinish = () => { ghost.remove(); opt.style.visibility = ''; };
+      $('quip').textContent = '...Fine. Keep it.';
     };
     const cancel = () => { end(); if (ghost) { ghost.remove(); opt.style.visibility = ''; } };
     const end = () => {
@@ -1460,6 +1483,7 @@ function loadBrawlKit() {
 }
 
 async function startMeltdown(food, pointer) {
+  geraldMood = 'angry';
   document.body.classList.add('meltdown');
   const ready = !reduceMotion && await Promise.race([loadBrawlKit(), new Promise(r => setTimeout(() => r(false), 1500))]);
   if (ready) geraldBrawl(food, pointer); else geraldMeltdown(food);
@@ -1600,7 +1624,10 @@ async function geraldBrawl(food, pointer) {
   const fling = (el, power = 1, angle = rand(-130, -50)) => {
     flung.add(el);
     el.style.transition = 'none';
-    gsap.to(el, { duration: 2.6, physics2D: { velocity: rand(800, 1200) * power, angle, gravity: 2600 }, rotation: rand(-260, 260), ease: 'none' });
+    gsap.to(el, {
+      duration: 2.6, physics2D: { velocity: rand(800, 1200) * power, angle, gravity: 2600 }, rotation: rand(-260, 260), ease: 'none',
+      onComplete: () => { el.style.visibility = 'hidden'; gsap.set(el, { clearProps: 'transform' }); },
+    });
   };
   const crack = (x, y, level) => {
     const rays = [5, 8, 14][level - 1], reach = [70, 170, Math.hypot(W, H) * 0.7][level - 1], steps = 3 + level * 2;
@@ -1658,6 +1685,7 @@ async function geraldBrawl(food, pointer) {
   const chat = document.querySelector('.chat svg'), cr = chat.getBoundingClientRect();
   let s0 = 1;
   if (cr.width) {
+    chat.style.transition = 'none';
     await gsap.to(chat, { rotation: 4, duration: 0.05, yoyo: true, repeat: 7, transformOrigin: '50% 100%' });
     gsap.set(gerald, { x: cr.left + cr.width / 2 - gw / 2, y: cr.bottom - gw * 0.92, scale: (s0 = cr.width / (gw * 0.79)), autoAlpha: 1 });
     chat.parentElement.style.visibility = 'hidden';
@@ -1741,7 +1769,8 @@ async function geraldBrawl(food, pointer) {
   const options = [...document.querySelectorAll('#answer .opt')].filter(onScreen).sort(() => Math.random() - 0.5).slice(0, 4);
   for (const opt of options) {
     const c = center(opt);
-    await sweep({ x: c.x + rand(-80, 80), y: c.y - 30 }, { x: c.x, y: c.y }, 0.14);
+    const burn = await sweep({ x: c.x + rand(-80, 80), y: c.y - 30 }, { x: c.x, y: c.y }, 0.14);
+    gsap.to(burn, { opacity: 0, duration: 0.6, delay: 0.3 });
     beamsOff(); impactFrame(); shake(10, 0.25);
     burst(c.x, c.y, pickOne(['ZAP', 'FZZT', 'KSSH', 'POW']), pickOne(['#ffd23f', '#ff5b3a']));
     opt.classList.add('scorched');
@@ -1750,18 +1779,30 @@ async function geraldBrawl(food, pointer) {
   }
   gsap.set(glow, { opacity: 0 }); gsap.set(pupils, { opacity: 1 });
 
-  // 6. The cursor dares to click him. Fight cloud.
-  const cursorPos = { x: Math.min(Math.max(pointer.x, 40), W - 80), y: Math.min(Math.max(pointer.y, 60), H * 0.5) };
-  gsap.set(cursor, { x: cursorPos.x, y: cursorPos.y });
-  await gsap.fromTo(cursor, { scale: 0, autoAlpha: 1 }, { scale: 1, duration: 0.3, ease: 'back.out(3)' });
-  await say("Don't. Click. Me.", 0.9);
+  // 6. The dare. The site works again, broken, until you click him. You may never.
+  gsap.set(wrap, { clearProps: 'transform' });
+  document.body.classList.remove('meltdown');
+  document.documentElement.style.overflow = '';
+  geraldMood = 'daring';
+  await gsap.to(gerald, { scale: W < 640 ? 0.6 : 0.75, duration: 0.4, ease: 'back.out(2)' });
+  say("Don't. Click. Me.", 0);
+  const glare = gsap.delayedCall(5, () => { say("I'm watching you.", 0); gsap.delayedCall(2.5, () => geraldMood === 'daring' && hush()); });
+  gerald.classList.add('dare');
+  const click = await new Promise(resolve => gerald.addEventListener('click', resolve, { once: true }));
+  glare.kill();
+  gerald.classList.remove('dare');
+  geraldMood = 'angry';
+  document.body.classList.add('meltdown');
+  document.documentElement.style.overflow = 'hidden';
   hush();
-  const headAt = center(head);
-  await gsap.to(cursor, { x: headAt.x - 10, y: headAt.y - 20, duration: 0.35, ease: 'power2.in' });
-  await gsap.to(cursor, { scale: 0.8, duration: 0.06, yoyo: true, repeat: 1 });
-  burst(headAt.x, headAt.y - 30, 'BONK'); shake(8);
-  await gsap.fromTo(gerald, { scaleY: 0.8, scaleX: 1.15 }, { scaleY: 1, scaleX: 1, duration: 0.3, ease: 'elastic.out(1, 0.3)' });
-  await wait(0.25);
+  gsap.set(cursor, { x: click.clientX, y: click.clientY, autoAlpha: 1 });
+  burst(click.clientX, click.clientY - 30, 'BONK'); shake(8);
+  await gsap.fromTo(gerald, { scaleY: 0.6, scaleX: 1.05 }, { scaleY: 1, scaleX: 1, duration: 0.35, ease: 'elastic.out(1, 0.3)' });
+  await say('Oh, it is ON.', 0.8);
+  hush();
+  const cursorPos = { x: Math.min(Math.max(click.clientX - 160, 40), W - 80), y: Math.min(Math.max(click.clientY - 120, 60), H - 120) };
+  await gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.25, ease: 'power2.out' });
+  await wait(0.15);
   const cw = Math.min(320, Math.max(180, W * 0.36));
   cloud.style.width = cw + 'px';
   const fightAt = center(cursor);
@@ -1781,7 +1822,7 @@ async function geraldBrawl(food, pointer) {
   });
   scramble();
   const scrambler = setInterval(scramble, 110);
-  const victims = ['.top', '#voyage', '#step-label', '#hint', '.quiz-foot', '.foot', '#answer .opt']
+  const victims = ['.top', '#voyage', '#step-label', '#hint', '.quiz-foot', '#answer .opt', '#result-title', '#result-lead', '.slab', '.slab-zone .note', '.actions .btn', '.small-print', '.foot']
     .flatMap(s => [...document.querySelectorAll(s)]).filter(el => !flung.has(el) && onScreen(el) && el.textContent.trim());
   for (const v of victims.slice(0, 5)) {
     const c = center(v);
@@ -1791,7 +1832,7 @@ async function geraldBrawl(food, pointer) {
     bits(c.x, c.y, '#36c46a', 3, { size: 12, power: 600 });
   }
   impactFrame(); shake(20, 0.6);
-  [...document.querySelectorAll('.wrap > *, #answer .opt, .quiz > *')].filter(el => !flung.has(el) && onScreen(el)).forEach(el => fling(el, 0.8));
+  [...document.querySelectorAll('.wrap > *, #answer .opt, .quiz > *, .result > *')].filter(el => !flung.has(el) && onScreen(el)).forEach(el => fling(el, 0.8));
   await wait(0.5);
 
   // 7. The dust settles. Gerald is fine.
